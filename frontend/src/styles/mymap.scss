@@ -1,0 +1,21 @@
+.mapboxgl-popup-content {
+    background-color:  rgb(205, 177, 50); // Cambia el color de fondo aquí
+    color: rgb(3, 11, 36); // Cambia el color del texto aquí
+    font-size: 16px; // Cambia el tamaño de la letra aquí
+    padding: 10px; // Ajusta el relleno para mejorar la presentación
+    border-radius: 4px; // Añade bordes redondeados
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3); // Añade sombra para mejorar la visibilidad
+  }
+  
+  // Opcional: Para ajustar el tamaño del título dentro del popup
+  .mapboxgl-popup-content h3 {
+    font-size: 18px; // Tamaño del texto del título
+    margin: 0; // Ajusta los márgenes si es necesario
+  }
+  
+  // Opcional: Para ajustar el tamaño del párrafo dentro del popup
+  .mapboxgl-popup-content p {
+    font-size: 14px; // Tamaño del texto del párrafo
+    margin: 0; // Ajusta los márgenes si es necesario
+  }
+  
