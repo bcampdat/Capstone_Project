@@ -11,37 +11,38 @@ import { UserContext } from "../components/auth/userContext";
 const Blog = () => {
   const [blogItems, setBlogItems] = useState([]);
   const [totalCount, setTotalCount] = useState(0);
-  const [currentPage, setCurrentPage] = useState(1);
+  const [currentPage, setCurrentPage] = useState(0);
   const [isLoading, setIsLoading] = useState(false);
   const [blogModalIsOpen, setBlogModalIsOpen] = useState(false);
 
   const { user, token } = useContext(UserContext);
 
   const getBlogItems = useCallback(() => {
-    
     if (isLoading) return;
 
     setIsLoading(true);
 
     axios
       .get(`http://localhost:3001/api/posts?page=${currentPage}`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
+        // withCredentials: true,
+        // headers: {
+        //   Authorization: `Bearer ${token}`,
+        // },
       })
       .then((response) => {
         console.log("Response from server:", response); // Debugging log
 
         const posts = response.data?.posts || [];
-        
+
         if (Array.isArray(posts)) {
+          // blogItems: this.state.blogItems.concat(response.data.posts)
           setBlogItems((prevItems) => [...prevItems, ...posts]);
-          console.log("Fetched posts:", posts);
-          setTotalCount(response.data.meta?.total_records || 0);
+          console.log("BlogItems posts:", posts);
+          setTotalCount(response.data.meta?.total_records);
           setCurrentPage((prevPage) => prevPage + 1);
-        } else {
-          console.error("Error: response.data.posts is not an array", response);
+          setIsLoading(false);
         }
+        console.log("Current page:", currentPage);
       })
       .catch((error) => {
         console.error("Error fetching blog items:", error);
@@ -55,10 +56,10 @@ const Blog = () => {
     if (!user) return;
     axios
       .delete(`http://localhost:3001/api/posts/delete/${post.id}`, {
-        withCredentials: true,
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
+        // withCredentials: true,
+        // headers: {
+        //   Authorization: `Bearer ${token}`,
+        // },
       })
       .then(() => {
         updateBlogItems(post);
@@ -91,8 +92,7 @@ const Blog = () => {
     if (isLoading || blogItems.length === totalCount) return;
 
     const isScrollAtBottom =
-      window.innerHeight + window.scrollY >=
-      document.documentElement.offsetHeight;
+      innerHeight + window.scrollY >= document.documentElement.offsetHeight;
 
     if (isScrollAtBottom) {
       getBlogItems();

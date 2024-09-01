@@ -38,7 +38,7 @@ const BlogForm = (props) => {
       setApiUrl(`http://localhost:3001/api/posts/${posts.id}`);
       setApiAction("patch");
     }
-  }, [posts]);
+  }, [Blog]);
 
   const componentConfig = {
     iconFiletypes: [".jpg", ".png"],
