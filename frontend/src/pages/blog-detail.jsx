@@ -6,10 +6,9 @@ import BlogFeaturedImage from '../components/Blog/blog-featured-image';
 import { UserContext } from '../components/auth/userContext'; 
 
 const BlogDetail = () => {
-  const { currentId } = useParams(); // Obtener el parámetro 'slug' de la URL
+  const { currentId } = useParams(); 
   const [blogItem, setBlogItem] = useState({});
-  const [editMode, setEditMode] = useState(true);
-  
+  const [editMode, setEditMode] = useState(true);  
   const { user } = useContext(UserContext); 
   
 
@@ -18,8 +17,7 @@ const BlogDetail = () => {
     
     axios
       .get(`http://localhost:3001/api/posts/${currentId}`)
-      .then((response) => {
-        console.log('getBlogItem   Detail response', response);
+      .then((response) => {        
         setBlogItem(response.data.post);
       })
       .catch((error) => {

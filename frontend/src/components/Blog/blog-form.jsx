@@ -3,7 +3,11 @@ import axios from "axios";
 import DropzoneComponent from "react-dropzone-component";
 import RichTextEditor from "../modals/rich-editor";
 
-const BlogForm = (props) => {
+const BlogForm = ({
+  posts,
+  handleSuccessfullFormSubmission,
+  handleFeaturedImageDelete,
+}) => {
   const [id, setId] = useState("");
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
@@ -12,13 +16,13 @@ const BlogForm = (props) => {
   const [apiAction, setApiAction] = useState();
   const [editMode, setEditMode] = useState(true);
 
-  const featuredImageRef = useRef();
+  const featuredImageRef = React.useRef();
 
   const deleteImage = (imageType) => {
     if (!posts || !posts.featured_image) return;
     axios
       .delete(
-        `http://localhost:3001/posts/delete-image/${posts.id}?image_type=${imageType}`
+        `http://localhost:3001/posts/delete-image/${id}?image_type=${imageType}`
       )
       .then((response) => {
         handleFeaturedImageDelete();
@@ -38,7 +42,7 @@ const BlogForm = (props) => {
       setApiUrl(`http://localhost:3001/api/posts/${posts.id}`);
       setApiAction("patch");
     }
-  }, [Blog]);
+  }, [posts]);
 
   const componentConfig = {
     iconFiletypes: [".jpg", ".png"],
@@ -53,6 +57,10 @@ const BlogForm = (props) => {
 
   const handleFeaturedImageDrop = {
     addedfile: (file) => setFeaturedImage(file),
+  };
+
+  const handleRichTextEditorChange = (content) => {
+    setContent(content);
   };
 
   const buildForm = () => {
@@ -111,7 +119,7 @@ const BlogForm = (props) => {
 
       <div className="one-column">
         <RichTextEditor
-          handleRichTextEditorChange={(content) => setContent(content)}
+          handleRichTextEditorChange={handleRichTextEditorChange}
           editMode={editMode}
           contentToEdit={editMode && posts ? posts.content : null}
         />
