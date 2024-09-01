@@ -12,12 +12,12 @@ const BlogItem = ({ blogItem }) => {
       <Link to={`/p/${id}`}>
         <h1>{title}</h1>
       </Link>
-      {/* Imagen destacada del blog, si existe */}
+      {/* Imagen destacada del blog, si existe
       {featured_image && (
         <div>
           <img src={featured_image} alt={`Imagen destacada de ${title}`} />
         </div>
-      )}
+      )} */}
       <div>
         <TruncateMarkup
           lines={6} 

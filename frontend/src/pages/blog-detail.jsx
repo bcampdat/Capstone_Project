@@ -8,16 +8,17 @@ import { UserContext } from '../components/auth/userContext';
 const BlogDetail = () => {
   const { slug } = useParams(); // Obtener el parámetro 'slug' de la URL
   const [blogItem, setBlogItem] = useState({});
-  const [editMode, setEditMode] = useState(false);
+  const [editMode, setEditMode] = useState(true);
   
-  const { user } = useContext(UserContext); // Obtener el usuario desde el contexto
+  const { user } = useContext(UserContext); 
 
   // Función para obtener el blog actual basado en la URL
   const getBlogItem = () => {
     axios
       .get(`http://localhost:3001/api/posts/${currentId}`)
       .then((response) => {
-        setBlogItem(response.data);
+        console.log('getBlogItem   Detail response', response);
+        setBlogItem(response.data.posts);
       })
       .catch((error) => {
         console.log('getBlogItem   Detail error', error);
@@ -37,7 +38,7 @@ const BlogDetail = () => {
   const handleFeaturedImageDelete = () => {
     setBlogItem((prevState) => ({
       ...prevState,
-      featured_image_url: "",
+      featured_image: "",
     }));
   };
 

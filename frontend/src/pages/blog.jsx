@@ -9,7 +9,7 @@ import BlogItem from "../components/Blog/blog-item";
 import { UserContext } from "../components/auth/userContext";
 
 const Blog = () => {
-  const [blogItems, setBlogItems] = useState([true]);
+  const [blogItems, setBlogItems] = useState([]);
   const [totalCount, setTotalCount] = useState(0);
   const [currentPage, setCurrentPage] = useState(1);
   const [isLoading, setIsLoading] = useState(false);
@@ -22,29 +22,31 @@ const Blog = () => {
     if (isLoading) return;
 
     setIsLoading(true);
-    
+
     axios
       .get(`http://localhost:3001/api/posts?page=${currentPage}`, {
-        // withCredentials: true,
         headers: {
           Authorization: `Bearer ${token}`,
         },
       })
       .then((response) => {
-        console.log("Response from server:", response);
-        if (response.data ) {                   
-          setBlogItems((prevItems) => [...prevItems, ...response.data]);
-          console.log ("response.data.posts", response.data.posts);
-          setTotalCount(response.data.meta?.total_records ); 
-          setCurrentPage((prevPage) => prevPage + 1); 
+        console.log("Response from server:", response); // Debugging log
+
+        const posts = response.data?.posts || [];
+        
+        if (Array.isArray(posts)) {
+          setBlogItems((prevItems) => [...prevItems, ...posts]);
+          console.log("Fetched posts:", posts);
+          setTotalCount(response.data.meta?.total_records || 0);
+          setCurrentPage((prevPage) => prevPage + 1);
         } else {
-          console.error("error blog items", response);
+          console.error("Error: response.data.posts is not an array", response);
         }
       })
       .catch((error) => {
         console.error("Error fetching blog items:", error);
       })
-      .finally(() => {     
+      .finally(() => {
         setIsLoading(false);
       });
   }, [currentPage, isLoading, token]);
@@ -62,9 +64,10 @@ const Blog = () => {
         updateBlogItems(post);
       })
       .catch((error) => {
-        console.log("delete post", error);
+        console.log("Delete post error", error);
       });
   };
+
   const updateBlogItems = (post) => {
     setBlogItems((prevItems) =>
       prevItems.filter((blogItem) => blogItem.id !== post.id)
@@ -84,17 +87,17 @@ const Blog = () => {
     setBlogModalIsOpen(true);
   };
 
-  // const onScroll = useCallback(() => {
-  //   if (isLoading || blogItems.length === totalCount) return;
+  const onScroll = useCallback(() => {
+    if (isLoading || blogItems.length === totalCount) return;
 
-  //   const isScrollAtBottom =
-  //     window.innerHeight + window.scrollY >=
-  //     document.documentElement.offsetHeight;
+    const isScrollAtBottom =
+      window.innerHeight + window.scrollY >=
+      document.documentElement.offsetHeight;
 
-  //   if (isScrollAtBottom) {
-  //     getBlogItems();
-  //   }
-  // }, [isLoading, blogItems.length, totalCount, getBlogItems]);
+    if (isScrollAtBottom) {
+      getBlogItems();
+    }
+  }, [isLoading, blogItems.length, totalCount, getBlogItems]);
 
   useEffect(() => {
     getBlogItems();
@@ -106,7 +109,9 @@ const Blog = () => {
   }, [onScroll]);
 
   const blogRecords = blogItems.map((blogItem) => (
-    <div key={blogItem.id} className="admin-blog-wrapper">
+    <div className="admin-blog-wrapper" key={blogItem.id}>
+      {" "}
+      {/* Assign unique key here */}
       <BlogItem blogItem={blogItem} />
       {user && (
         <button onClick={() => handleDeleteClick(blogItem)}>
@@ -135,7 +140,7 @@ const Blog = () => {
       <div className="content-container">{blogRecords}</div>
       {isLoading && (
         <div className="content-loader">
-          <ImSpinner size="30px"/>
+          <ImSpinner size="30px" />
         </div>
       )}
     </div>

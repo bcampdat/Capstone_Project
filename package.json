@@ -14,13 +14,13 @@
   "bugs": {
     "url": "https://github.com/bottega-code-school/js-builder/issues"
   },
- 
   "devDependencies": {
     "concurrently": "^8.2.2"
   },
   "dependencies": {
     "@mapbox/mapbox-gl-geocoder": "^5.0.2",
     "morgan": "^1.10.0",
-    "react-dropzone": "^14.2.3"
+    "react-dropzone": "^14.2.3",
+    "react-html-parser": "^2.0.2"
   }
 }

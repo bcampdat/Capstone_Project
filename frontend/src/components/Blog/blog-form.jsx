@@ -3,25 +3,42 @@ import axios from "axios";
 import DropzoneComponent from "react-dropzone-component";
 import RichTextEditor from "../modals/rich-editor";
 
-const BlogForm = ({ editMode, posts, handleUpdateFormSubmission, handleSuccessfullFormSubmission, deleteImage }) => {
+const BlogForm = (props) => {
   const [id, setId] = useState("");
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
   const [featuredImage, setFeaturedImage] = useState("");
   const [apiUrl, setApiUrl] = useState("http://localhost:3001/posts");
-  const [apiAction, setApiAction] = useState("post");
+  const [apiAction, setApiAction] = useState();
+  const [editMode, setEditMode] = useState(true);
 
-  const featuredImageRef = useRef(null);
+  const featuredImageRef = useRef();
+
+  const deleteImage = (imageType) => {
+    if (!posts || !posts.featured_image) return;
+    axios
+      .delete(
+        `http://localhost:3001/posts/delete-image/${posts.id}?image_type=${imageType}`
+      )
+      .then((response) => {
+        handleFeaturedImageDelete();
+        console.log("Image deleted successfully", response.data);
+      })
+      .catch((error) => {
+        console.log("deleteImage error", error);
+      });
+  };
 
   useEffect(() => {
-    if (editMode && posts) {
+    if (posts) {
+      setEditMode(true);
       setId(posts.id);
       setTitle(posts.title);
       setContent(posts.content);
       setApiUrl(`http://localhost:3001/api/posts/${posts.id}`);
       setApiAction("patch");
     }
-  }, [editMode, posts]);
+  }, [posts]);
 
   const componentConfig = {
     iconFiletypes: [".jpg", ".png"],
@@ -62,7 +79,7 @@ const BlogForm = ({ editMode, posts, handleUpdateFormSubmission, handleSuccessfu
         withCredentials: true,
       });
 
-      if (featuredImage) {
+      if (featuredImageRef.current) {
         featuredImageRef.current.dropzone.removeAllFiles();
       }
 
@@ -71,9 +88,9 @@ const BlogForm = ({ editMode, posts, handleUpdateFormSubmission, handleSuccessfu
       setFeaturedImage("");
 
       if (editMode) {
-        handleUpdateFormSubmission(response.data.post);
+        handleUpdateFormSubmission(response.data.posts);
       } else {
-        handleSuccessfullFormSubmission(response.data.post);
+        handleSuccessfullFormSubmission(response.data.posts);
       }
     } catch (error) {
       console.log("Error handling form submission", error);
@@ -94,18 +111,23 @@ const BlogForm = ({ editMode, posts, handleUpdateFormSubmission, handleSuccessfu
 
       <div className="one-column">
         <RichTextEditor
-          handleRichTextEditorChange={setContent}
+          handleRichTextEditorChange={(content) => setContent(content)}
           editMode={editMode}
-          contentToEdit={editMode && posts.content ? posts.content : null}
+          contentToEdit={editMode && posts ? posts.content : null}
         />
       </div>
 
       <div className="image-uploaders">
-        {editMode && posts.featured_image ? (
+        {editMode && posts && posts.featured_image ? (
           <div className="portfolio-manager-image-wrapper">
             <img src={posts.featured_image} alt="Featured" />
             <div className="image-removal-link">
-              <button onClick={() => deleteImage("featured_image")}>Remove file</button>
+              <button
+                type="button"
+                onClick={() => deleteImage("featured_image")}
+              >
+                Remove file
+              </button>
             </div>
           </div>
         ) : (
