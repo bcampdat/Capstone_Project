@@ -1,7 +1,6 @@
 import React from "react";
 
-const BlogFeaturedImage = () => {
-  // Si no hay imagen, no renderizar nada
+const BlogFeaturedImage = ({ img }) => { 
   if (!img) {
     return null;
   }
