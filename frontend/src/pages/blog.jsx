@@ -11,13 +11,14 @@ import { UserContext } from "../components/auth/userContext";
 const Blog = () => {
   const [blogItems, setBlogItems] = useState([]);
   const [totalCount, setTotalCount] = useState(0);
-  const [currentPage, setCurrentPage] = useState(0);
+  const [currentPage, setCurrentPage] = useState(1);
   const [isLoading, setIsLoading] = useState(false);
   const [blogModalIsOpen, setBlogModalIsOpen] = useState(false);
 
   const { user, token } = useContext(UserContext);
 
   const getBlogItems = useCallback(() => {
+
     if (isLoading) return;
 
     setIsLoading(true);
@@ -30,7 +31,7 @@ const Blog = () => {
         // },
       })
       .then((response) => {
-        console.log("Response from server:", response); // Debugging log
+        console.log("Response from server:", response); 
 
         const posts = response.data?.posts || [];
 
@@ -40,9 +41,10 @@ const Blog = () => {
           console.log("BlogItems posts:", posts);
           setTotalCount(response.data.meta?.total_records);
           setCurrentPage((prevPage) => prevPage + 1);
-          setIsLoading(false);
+        } else {
+          console.log("Posts is not an array:", posts);
         }
-        console.log("Current page:", currentPage);
+        console.log("Current page:", currentPage, "Total count:", totalCount);
       })
       .catch((error) => {
         console.error("Error fetching blog items:", error);
@@ -89,7 +91,7 @@ const Blog = () => {
   };
 
   const onScroll = useCallback(() => {
-    if (isLoading || blogItems.length === totalCount) return;
+    if (isLoading || blogItems.length === totalCount ) return;
 
     const isScrollAtBottom =
       innerHeight + window.scrollY >= document.documentElement.offsetHeight;

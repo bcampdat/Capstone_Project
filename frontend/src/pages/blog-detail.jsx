@@ -6,29 +6,31 @@ import BlogFeaturedImage from '../components/Blog/blog-featured-image';
 import { UserContext } from '../components/auth/userContext'; 
 
 const BlogDetail = () => {
-  const { slug } = useParams(); // Obtener el parámetro 'slug' de la URL
+  const { currentId } = useParams(); // Obtener el parámetro 'slug' de la URL
   const [blogItem, setBlogItem] = useState({});
   const [editMode, setEditMode] = useState(true);
   
   const { user } = useContext(UserContext); 
+  
 
   // Función para obtener el blog actual basado en la URL
   const getBlogItem = () => {
+    
     axios
       .get(`http://localhost:3001/api/posts/${currentId}`)
       .then((response) => {
         console.log('getBlogItem   Detail response', response);
-        setBlogItem(response.data.posts);
+        setBlogItem(response.data.post);
       })
       .catch((error) => {
-        console.log('getBlogItem   Detail error', error);
+        console.log('getBlogItem  Detail error', error);
       });
   };
 
   // Similar a componentDidMount
   useEffect(() => {
     getBlogItem();
-  }, [slug]); // Ejecutar solo cuando cambia
+  }, [currentId]); 
 
   const handleUpdateFormSubmission = (post) => {
     setBlogItem(post);
@@ -38,7 +40,7 @@ const BlogDetail = () => {
   const handleFeaturedImageDelete = () => {
     setBlogItem((prevState) => ({
       ...prevState,
-      featured_image: "",
+      featured_image:"",
     }));
   };
 
