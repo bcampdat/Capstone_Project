@@ -14,7 +14,7 @@ const BlogItem = ({ blogItem }) => {
       </Link>
       {/* Imagen destacada del blog, si existe */}
       {featured_image && (
-        <div>
+        <div >
           <img src={featured_image} alt={`Imagen destacada de ${title}`} />
         </div>
       )}

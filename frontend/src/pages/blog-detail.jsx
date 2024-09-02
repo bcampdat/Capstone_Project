@@ -12,11 +12,10 @@ const BlogDetail = () => {
   const { user } = useContext(UserContext); 
   
 
-  // Función para obtener el blog actual basado en la URL
   const getBlogItem = () => {
     
     axios
-      .get(`http://localhost:3001/api/posts/${currentId}`)
+      .get(`http://localhost:3001/api/posts/${this.state.currentId}`)
       .then((response) => {        
         setBlogItem(response.data.post);
       })
@@ -34,6 +33,7 @@ const BlogDetail = () => {
     setBlogItem(post);
     setEditMode(false);
   };
+
 
   const handleFeaturedImageDelete = () => {
     setBlogItem((prevState) => ({

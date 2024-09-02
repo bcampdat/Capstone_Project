@@ -59,20 +59,20 @@ const BlogForm = ({
     addedfile: (file) => setFeaturedImage(file),
   };
 
+  // const handleChange = (event) => {
+  //   setFormData({ ...formData, [event.target.name]: event.target.value });
+  // };
   const handleRichTextEditorChange = (content) => {
     setContent(content);
   };
 
   const buildForm = () => {
     const formData = new FormData();
-
     formData.append("post[title]", title);
     formData.append("post[content]", content);
-
     if (featuredImage) {
       formData.append("post[featured_image]", featuredImage);
     }
-
     return formData;
   };
 
@@ -84,6 +84,9 @@ const BlogForm = ({
         method: apiAction,
         url: apiUrl,
         data: buildForm(),
+        headers: {
+          'Content-Type': 'multipart/form-data'
+        },
         withCredentials: true,
       });
 
