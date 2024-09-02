@@ -1,10 +1,10 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import striptags from "striptags"; 
-import Truncate from "react-truncate-markup"; 
+import striptags from "striptags";
+import Truncate from "react-truncate";
 
 const BlogItem = ({ blogItem }) => {
-  const { id, content, title, featured_image } = blogItem;
+  const { id, content, title, featured_image} = blogItem;
 
   return (
     <div>
@@ -14,22 +14,22 @@ const BlogItem = ({ blogItem }) => {
       </Link>
       {/* Imagen destacada del blog, si existe */}
       {featured_image && (
-        <div >
+        <div>
           <img src={featured_image} alt={`Imagen destacada de ${title}`} />
         </div>
       )}
-      <div>
-        <Truncate
-          lines={6} 
-          ellipsis={
-            <span>
-              ...<Link to={`/p/${id}`}>Read more</Link>
-            </span>
-          }
-        >
-          <span>{striptags(content)}</span>
-        </Truncate>
-      </div>
+        <div>
+          <Truncate
+            lines={6}
+            ellipsis={
+              <span>
+                ...<Link to={`/p/${id}`}>Read more</Link>
+              </span>
+            }
+          >
+            <span>{striptags(content)}</span>
+          </Truncate>
+        </div>
     </div>
   );
 };
