@@ -2,7 +2,6 @@ import React from 'react';
 import Modal from 'react-modal';
 import BlogForm from '../Blog/blog-form';
 
-// Asegúrate de que el ID sea correcto
 Modal.setAppElement('#app-wrapper');
 
 const BlogModal = (props) => {
@@ -12,7 +11,7 @@ const BlogModal = (props) => {
       top: '50%',
       left: '50%',
       right: 'auto',
-      bottom: 'auto', // Se añadió esto para evitar desplazamiento vertical en algunos casos
+      bottom: 'auto', 
       marginRight: '-50%',
       transform: 'translate(-50%, -50%)',
       width: '750px',
@@ -22,7 +21,6 @@ const BlogModal = (props) => {
     },
   };
 
-  // Función para manejar la sumisión exitosa del formulario
   const handleSuccessfulFormSubmission = (blog) => {
     props.handleSuccessfulNewBlogSubmission(blog);
   };
@@ -34,8 +32,7 @@ const BlogModal = (props) => {
       isOpen={props.modalIsOpen}
     >
       <BlogForm
-        handleSuccessfulFormSubmission={handleSuccessfulFormSubmission} // Corrección del nombre
-      />
+        handleSuccessfulFormSubmission={handleSuccessfulFormSubmission} />
     </Modal>
   );
 };

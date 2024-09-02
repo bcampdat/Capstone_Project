@@ -51,8 +51,6 @@ app.use(express.json());
 
 // rutas  
 
-// const rutas = require('./routes/rutasApi');
-// app.use('/api/',rutas);
 const rutasUser = require('./routes/rutasUser'); // Importa tu archivo de rutas correctamente
 const rutasPosts = require('./routes/rutasPost');
 const rutasEventos = require('./routes/rutasEventos');
@@ -64,9 +62,6 @@ app.use('/api', rutasEventos); // Rutas de eventos
 app.get("/", (req, res) => {
   return res.json("From Backend Side");
 });
-
-
-
 
 // listener
 const port = process.env.PORT;

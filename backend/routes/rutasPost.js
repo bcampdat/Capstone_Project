@@ -3,6 +3,7 @@ const router = express.Router(); // Crear una instancia de Router
 const db = require('../config/db'); // Importa tu configuración de base de datos
 const morgan = require('morgan');
 
+
 // Ruta para obtener todos los posts
 router.get('/posts', (req, res) => {
   const q = "SELECT * FROM posts"; 
@@ -14,24 +15,6 @@ router.get('/posts', (req, res) => {
     return res.json(data);
   });
 });
-
-
-
-router.get('/posts/:id', (req, res) => {
-  const postId = req.params.id;
-  const q = "SELECT * FROM posts WHERE post_id = ?"; 
-  db.query(q, [postId], (err, data) => {
-    if (err) {
-      console.error("Error al obtener el post:", err);
-      return res.status(500).json({ message: "Error del servidor" });
-    }
-    if (data.length === 0) {
-      return res.status(404).json({ message: "Post no encontrado" });
-    }
-    return res.json(data[0]);
-  });
-});
-
 
 // Ruta para obtener un post por su ID
 router.get('/posts/:id', (req, res) => {
@@ -88,7 +71,6 @@ router.delete('/posts/delete/:id', morgan ('dev'), (req, res) => {
     return res.json({ message: "Post eliminado con éxito" });
   });
 });
-
 router.delete('/posts/delete-image/:featured_image', (req, res) => {
   const { featured_image } = req.params; // Destructure to get featured_image from request parameters
   
@@ -106,10 +88,9 @@ router.delete('/posts/delete-image/:featured_image', (req, res) => {
     if (data.affectedRows === 0) {
       return res.status(404).json({ message: "No post found with the provided image" });
     }
-
     // Successfully deleted
     return res.json({ message: "Post deleted successfully" });
   });
 });
 
-module.exports = router; // Exportar el router para su uso en otros archivos
+module.exports = router;

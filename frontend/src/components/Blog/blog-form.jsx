@@ -1,78 +1,39 @@
 import React, { useState, useEffect, useRef } from "react";
 import axios from "axios";
-import DropzoneComponent from "react-dropzone-component";
+import Dropzone from "react-dropzone";
 import RichTextEditor from "../modals/rich-editor";
 
-const BlogForm = ({
-  posts,
-  handleSuccessfullFormSubmission,
-  handleFeaturedImageDelete,
-}) => {
-  const [id, setId] = useState("");
+const BlogForm = ({ post, editMode, handleUpdateFormSubmission, handleSuccessfullFormSubmission, handleFeaturedImageDelete }) => {
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
-  const [featuredImage, setFeaturedImage] = useState("");
-  const [apiUrl, setApiUrl] = useState("http://localhost:3001/posts");
-  const [apiAction, setApiAction] = useState();
-  const [editMode, setEditMode] = useState(true);
+  const [featuredImage, setFeaturedImage] = useState(null);
+  const [apiUrl, setApiUrl] = useState("http://localhost:3001/api/posts");
+  const [apiAction, setApiAction] = useState("post");
 
-  const featuredImageRef = React.useRef();
-
-  const deleteImage = (imageType) => {
-    if (!posts || !posts.featured_image) return;
-    axios
-      .delete(
-        `http://localhost:3001/posts/delete-image/${id}?image_type=${imageType}`
-      )
-      .then((response) => {
-        handleFeaturedImageDelete();
-        console.log("Image deleted successfully", response.data);
-      })
-      .catch((error) => {
-        console.log("deleteImage error", error);
-      });
-  };
+  const dropzoneRef = useRef(null);
 
   useEffect(() => {
-    if (posts) {
-      setEditMode(true);
-      setId(posts.id);
-      setTitle(posts.title);
-      setContent(posts.content);
-      setApiUrl(`http://localhost:3001/api/posts/${posts.id}`);
+    if (editMode) {
+      setTitle(post.title);
+      setContent(post.content);
+      setApiUrl(`http://localhost:3001/api/posts/${post.id}`);
       setApiAction("patch");
     }
-  }, [posts]);
+  }, [editMode, post]);
 
-  const componentConfig = {
-    iconFiletypes: [".jpg", ".png"],
-    showFiletypeIcon: true,
-    postUrl: "http://httpbin.org/post",
-  };
-
-  const djsConfig = {
-    addRemoveLinks: true,
-    maxFiles: 1,
-  };
-
-  const handleFeaturedImageDrop = {
-    addedfile: (file) => setFeaturedImage(file),
-  };
-
-  // const handleChange = (event) => {
-  //   setFormData({ ...formData, [event.target.name]: event.target.value });
-  // };
-  const handleRichTextEditorChange = (content) => {
-    setContent(content);
+  const handleDrop = (acceptedFiles) => {
+    setFeaturedImage(acceptedFiles[0]);
   };
 
   const buildForm = () => {
     const formData = new FormData();
     formData.append("post[title]", title);
     formData.append("post[content]", content);
+
     if (featuredImage) {
       formData.append("post[featured_image]", featuredImage);
     }
+
     return formData;
   };
 
@@ -84,27 +45,37 @@ const BlogForm = ({
         method: apiAction,
         url: apiUrl,
         data: buildForm(),
-        headers: {
-          'Content-Type': 'multipart/form-data'
-        },
         withCredentials: true,
       });
 
-      if (featuredImageRef.current) {
-        featuredImageRef.current.dropzone.removeAllFiles();
+      if (featuredImage) {
+        dropzoneRef.current.removeAllFiles();
       }
 
+      // Reset state after submission
       setTitle("");
       setContent("");
-      setFeaturedImage("");
+      setFeaturedImage(null);
 
       if (editMode) {
-        handleUpdateFormSubmission(response.data.posts);
+        handleUpdateFormSubmission(response.data.post);
       } else {
-        handleSuccessfullFormSubmission(response.data.posts);
+        handleSuccessfullFormSubmission(response.data.post);
       }
     } catch (error) {
-      console.log("Error handling form submission", error);
+      console.error("handleSubmit for blog error", error);
+    }
+  };
+
+  const deleteImage = async (imageType) => {
+    try {
+      await axios.delete(
+        `http://localhost:3001/api/posts/${post.id}?image_type=${imageType}`,
+        { withCredentials: true }
+      );
+      handleFeaturedImageDelete();
+    } catch (error) {
+      console.error("deleteImage error", error);
     }
   };
 
@@ -122,40 +93,40 @@ const BlogForm = ({
 
       <div className="one-column">
         <RichTextEditor
-          handleRichTextEditorChange={handleRichTextEditorChange}
+          handleRichTextEditorChange={setContent}
           editMode={editMode}
-          contentToEdit={editMode && posts ? posts.content : null}
+          contentToEdit={editMode ? post.content : null}
         />
       </div>
 
       <div className="image-uploaders">
-        {editMode && posts && posts.featured_image ? (
-          <div className="portfolio-manager-image-wrapper">
-            <img src={posts.featured_image} alt="Featured" />
+        {editMode && post.featured_image ? (
+          <div className="blog-manager-image-wrapper">
+            <img src={post.featured_image} alt="Featured" />
             <div className="image-removal-link">
-              <button
-                type="button"
-                onClick={() => deleteImage("featured_image")}
-              >
+              <button type="button" onClick={() => deleteImage("featured_image")}>
                 Remove file
               </button>
             </div>
           </div>
         ) : (
-          <DropzoneComponent
-            ref={featuredImageRef}
-            config={componentConfig}
-            djsConfig={djsConfig}
-            eventHandlers={handleFeaturedImageDrop}
+          <Dropzone
+            ref={dropzoneRef}
+            onDrop={handleDrop}
+            accept=".jpg, .png"
+            multiple={false}
           >
-            <div className="dz-message">Featured Image</div>
-          </DropzoneComponent>
+            {({ getRootProps, getInputProps }) => (
+              <div {...getRootProps()} className="dz-message">
+                <input {...getInputProps()} />
+                {featuredImage ? "File selected: " + featuredImage.name : "Featured Image"}
+              </div>
+            )}
+          </Dropzone>
         )}
       </div>
 
-      <button className="btn" type="submit">
-        Save
-      </button>
+      <button type="submit" className="btn">Save</button>
     </form>
   );
 };
