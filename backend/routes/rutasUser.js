@@ -19,7 +19,7 @@ router.get('/users', (req, res) => {
     }
     return res.json(data);
   });
-});
+}); //http://localhost:3001/api/users
 
 // Ruta para crear un usuario
 router.post("/users/create", async (req, res) => {

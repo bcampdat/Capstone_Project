@@ -1,7 +1,6 @@
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 
-
 // Función para encriptar la contraseña
 const encryptPassword = async (password) => {
   const salt = await bcrypt.genSalt(12);
