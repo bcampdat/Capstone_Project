@@ -8,6 +8,7 @@ import Calendario from "./pages/calendario";
 import Mapas from "./pages/mapas";
 import Blog from "./pages/blog";
 import BlogDetail from './pages/blog-detail';
+import Footer from "./components/Footer";
 import NoMatch from "./pages/no-match";
 
 // Componente que maneja las rutas de la aplicación
@@ -38,6 +39,7 @@ const AppRoutes = () => {
                  
           <Route path="*" element={<NoMatch />} />
         </Routes>
+        <Footer />
       </Router>
     </div>
   );
