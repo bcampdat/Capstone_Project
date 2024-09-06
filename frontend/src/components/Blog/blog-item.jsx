@@ -2,7 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
 import striptags from "striptags";
-import Truncate from "react-truncate";
+import TextTruncate from "react-text-truncate";
 
 const BlogItem = ({ blogItem }) => {
   const { id, content, title, featured_image } = blogItem;
@@ -17,25 +17,22 @@ const BlogItem = ({ blogItem }) => {
 
       {featured_image && (
         <figure className="featured-image-wrapper">
-          <img 
-            src={featured_image} 
-            alt={title || 'Blog featured image'} 
-            className="featured-image" 
+          <img
+            src={featured_image}
+            alt={title || "Blog featured image"}
+            className="featured-image"
           />
         </figure>
       )}
 
       <div className="blog-content">
-        <Truncate
-          lines={5}
-          ellipsis={
-            <span>
-              ... <Link to={`/p/${id}`}>Read more</Link>
-            </span>
-          }
-        >
-          {striptags(content)}
-        </Truncate>
+        <TextTruncate
+          line={4}
+          element="span"
+          truncateText="…"
+          text={striptags(content)}
+          textTruncateChild={<Link to={`/p/${id}`}>Read more</Link>}
+        />
       </div>
     </article>
   );

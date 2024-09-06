@@ -17,7 +17,7 @@ const BlogDetail = () => {
     const getBlogItem = async () => {
       try {
         const response = await axios.get(`http://localhost:3001/api/posts/${slug}`);
-        setBlogItem(response.data.post);
+        setBlogItem(response.data);
       } catch (error) {
         console.log("getBlogItem error", error);
       }

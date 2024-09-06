@@ -6,10 +6,11 @@ import { CiCirclePlus } from "react-icons/ci";
 
 import BlogModal from "../components/modals/Blog-Modal";
 import BlogItem from "../components/Blog/blog-item";
+
 import { UserContext } from "../components/auth/userContext";
 
 const Blog = () => {
-  const { user } = useContext(UserContext); // Access user context
+  const { user } = useContext(UserContext);
   const [blogItems, setBlogItems] = useState([]);
   const [totalCount, setTotalCount] = useState(0);
   const [currentPage, setCurrentPage] = useState(0);
@@ -17,16 +18,17 @@ const Blog = () => {
   const [blogModalIsOpen, setBlogModalIsOpen] = useState(false);
 
   const getBlogItems = useCallback(() => {
-    setCurrentPage((prevPage) => prevPage + 1);
-
+       setCurrentPage((prevPage) => prevPage + 1);
     axios
       .get(`http://localhost:3001/api/posts?page=${currentPage + 1}`, {
         withCredentials: true,
       })
       .then((response) => {
         console.log("getting", response.data);
-        setBlogItems((prevItems) => prevItems.concat(response.data.posts));
-        setTotalCount(response.data.meta.total_records);
+        setBlogItems((prevItems) => prevItems.concat(response.data));
+        console.log("blogItems", blogItems);
+        setTotalCount(response.data.length);
+        console.log("totalCount", totalCount);
         setIsLoading(false);
       })
       .catch((error) => {
@@ -36,14 +38,15 @@ const Blog = () => {
 
   useEffect(() => {
     getBlogItems();
-  }, [getBlogItems]);
+  }, []);
 
   useEffect(() => {
     const onScroll = () => {
       if (
         isLoading ||
         blogItems.length === totalCount ||
-        window.innerHeight + window.scrollY < document.documentElement.offsetHeight
+        window.innerHeight + window.scrollY <
+          document.documentElement.offsetHeight
       ) {
         return;
       }
@@ -60,7 +63,7 @@ const Blog = () => {
   const handleDeleteClick = (post) => {
     console.log("delete blog", post);
     axios
-      .delete(`http://localhost:3001/api/posts/${post.id}`, {
+      .delete(`http://localhost:3001/api/posts/delete/${post.id}`, {
         withCredentials: true,
       })
       .then(() => {
@@ -86,8 +89,8 @@ const Blog = () => {
     setBlogModalIsOpen(true);
   };
 
-  const blogRecords = blogItems.map((blogItem) => (
-    <div key={blogItem.id} className="admin-blog-wrapper">
+  const blogRecords = blogItems.map((blogItem,i) => (
+    <div className="admin-blog-wrapper" key={i} >
       <BlogItem blogItem={blogItem} />
       {user && (
         <a onClick={() => handleDeleteClick(blogItem)}>

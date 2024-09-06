@@ -13,15 +13,10 @@ const BlogFeaturedImage = ({ img, altText = "Blog featured image" }) => {
   );
 };
 
-// Prop type validation
+// Validación de tipos con PropTypes
 BlogFeaturedImage.propTypes = {
   img: PropTypes.string, 
   altText: PropTypes.string, 
-};
-
-// Default props
-BlogFeaturedImage.defaultProps = {
-  altText: "Blog featured image",
 };
 
 export default BlogFeaturedImage;

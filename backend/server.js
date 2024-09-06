@@ -43,7 +43,7 @@ app.use(cors({
   origin: 'http://localhost:5173', // Reemplazar con el origen de tu frontend
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'], // Métodos permitidos
   allowedHeaders: ['Content-Type', 'Authorization'], // Encabezados permitidos
-  
+  Credentials: true
 }));
 
 
