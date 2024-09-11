@@ -1,11 +1,12 @@
 import React, { useState, useContext, useEffect } from "react";
+import PropTypes from "prop-types"; 
 import { Dropzone, FileMosaic } from "@dropzone-ui/react";
 import axios from "axios";
 import { UserContext } from "../auth/userContext";
 import RichTextEditor from "../modals/rich-text-editor";
 
 const BlogForm = ({ post, isEdit, handleSuccessfulNewBlogSubmission }) => {
-  const { user } = useContext(UserContext); // Obtener usuario logueado del contexto
+  const { user } = useContext(UserContext);
   const [title, setTitle] = useState(post ? post.title : "");
   const [content, setContent] = useState(post ? post.content : "");
   const [featuredImage, setFeaturedImage] = useState(null);
@@ -49,15 +50,14 @@ const BlogForm = ({ post, isEdit, handleSuccessfulNewBlogSubmission }) => {
       const formData = new FormData();
       formData.append("title", title);
       formData.append("content", content);
-      formData.append("usuario_id", user.id_users); // Asegúrate de que el user ID se incluye
+      formData.append("usuario_id", user.id_users); // Incluir el ID del usuario
 
       if (featuredImage) {
-        formData.append("featured_image", featuredImage); // Agregar imagen destacada si existe
+        formData.append("featured_image", featuredImage);
       }
 
       let postId;
       if (isEdit) {
-        // Si es edición, usar PUT
         await axios.put(
           `http://localhost:3001/api/posts/update/${post.id}`,
           formData,
@@ -67,7 +67,6 @@ const BlogForm = ({ post, isEdit, handleSuccessfulNewBlogSubmission }) => {
         );
         postId = post.id;
       } else {
-        // Si es creación, usar POST
         const postResponse = await axios.post(
           "http://localhost:3001/api/posts/create",
           formData,
@@ -81,23 +80,6 @@ const BlogForm = ({ post, isEdit, handleSuccessfulNewBlogSubmission }) => {
       handleSuccessfulNewBlogSubmission({ id: postId, title, content });
     } catch (error) {
       console.error("Error al guardar el post:", error);
-    }
-  };
-
-  const handleDelete = async (postId) => {
-    try {
-      const response = await axios.delete(
-        `http://localhost:3001/api/posts/delete/${postId}`,
-        {
-          data: { usuario_id: user.id_users },
-        }
-      );
-      if (response.status === 200) {
-        console.log("Post eliminado con éxito");
-        // Aquí puedes actualizar la interfaz de usuario para reflejar la eliminación
-      }
-    } catch (error) {
-      console.error("Error al eliminar el post:", error);
     }
   };
 
@@ -160,6 +142,13 @@ const BlogForm = ({ post, isEdit, handleSuccessfulNewBlogSubmission }) => {
       </button>
     </form>
   );
+};
+
+// Validación de props con PropTypes
+BlogForm.propTypes = {
+  post: PropTypes.object, // 'post' es opcional pero debe ser un objeto si se proporciona
+  isEdit: PropTypes.bool.isRequired, // 'isEdit' es obligatorio y debe ser booleano
+  handleSuccessfulNewBlogSubmission: PropTypes.func.isRequired, // Función requerida
 };
 
 export default BlogForm;

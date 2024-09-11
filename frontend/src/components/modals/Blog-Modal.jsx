@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import PropTypes from 'prop-types'; 
 import BlogForm from '../Blog/blog-form';
 import Modal from 'react-modal';
 
@@ -59,6 +60,14 @@ const BlogModal = ({ modalIsOpen, handleModalClose, post, handleSuccessfulNewBlo
       </div>
     </Modal>
   );
+};
+
+// Validación de los props
+BlogModal.propTypes = {
+  modalIsOpen: PropTypes.bool.isRequired, // Requerido y debe ser booleano
+  handleModalClose: PropTypes.func.isRequired, // Función requerida
+  post: PropTypes.object, // Puede ser un objeto o null
+  handleSuccessfulNewBlogSubmission: PropTypes.func.isRequired // Función requerida
 };
 
 // Estilos del botón de cerrar

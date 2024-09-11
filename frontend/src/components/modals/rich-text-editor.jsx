@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import PropTypes from "prop-types"; // Importar PropTypes para la validación
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 
@@ -15,7 +16,7 @@ const RichTextEditor = ({ value, onChange }) => {
     setEditorValue(content);
     onChange(content);
   };
-  
+
   return (
     <ReactQuill
       value={editorValue}
@@ -31,6 +32,12 @@ const RichTextEditor = ({ value, onChange }) => {
       placeholder="Escribe tu contenido aquí..."
     />
   );
+};
+
+// Validación de props con PropTypes
+RichTextEditor.propTypes = {
+  value: PropTypes.string, // 'value' es opcional pero debe ser string si se proporciona
+  onChange: PropTypes.func.isRequired, // 'onChange' es obligatorio y debe ser una función
 };
 
 export default RichTextEditor;
