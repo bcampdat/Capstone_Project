@@ -16,19 +16,17 @@ const Blog = () => {
   const [currentPage, setCurrentPage] = useState(0);
   const [isLoading, setIsLoading] = useState(true);
   const [blogModalIsOpen, setBlogModalIsOpen] = useState(false);
+  const [selectedPost, setSelectedPost] = useState(null); // Para manejar la edición de posts
 
   const getBlogItems = useCallback(() => {
-       setCurrentPage((prevPage) => prevPage + 1);
+    setCurrentPage((prevPage) => prevPage + 1);
     axios
       .get(`http://localhost:3001/api/posts?page=${currentPage + 1}`, {
         withCredentials: true,
       })
       .then((response) => {
-        console.log("getting", response.data);
         setBlogItems((prevItems) => prevItems.concat(response.data));
-        console.log("blogItems", blogItems);
         setTotalCount(response.data.length);
-        console.log("totalCount", totalCount);
         setIsLoading(false);
       })
       .catch((error) => {
@@ -61,9 +59,9 @@ const Blog = () => {
   }, [isLoading, blogItems, totalCount, getBlogItems]);
 
   const handleDeleteClick = (post) => {
-    console.log("delete blog", post);
     axios
       .delete(`http://localhost:3001/api/posts/delete/${post.id}`, {
+        data: { usuario_id: user.id_users }, // Enviamos usuario_id para verificación
         withCredentials: true,
       })
       .then(() => {
@@ -75,30 +73,45 @@ const Blog = () => {
         console.log("delete blog error", error);
       });
   };
+  
+
+  const handleNewBlogClick = () => {
+    setSelectedPost(null); // No hay post seleccionado para una nueva creación
+    setBlogModalIsOpen(true); // Abre el modal para un nuevo post
+  };
+
+  const handleEditBlogClick = (post) => {
+    setSelectedPost(post); // Pasamos el post seleccionado para edición
+    setBlogModalIsOpen(true); // Abre el modal para edición
+  };
+  
+
+  const handleModalClose = () => {
+    setBlogModalIsOpen(false);
+    setSelectedPost(null); // Resetea el post seleccionado al cerrar el modal
+  };
 
   const handleSuccessfulNewBlogSubmission = (post) => {
     setBlogModalIsOpen(false);
     setBlogItems((prevItems) => [post, ...prevItems]);
   };
 
-  const handleModalClose = () => {
-    setBlogModalIsOpen(false);
-  };
-
-  const handleNewBlogClick = () => {
-    setBlogModalIsOpen(true);
-  };
-
-  const blogRecords = blogItems.map((blogItem,i) => (
-    <div className="admin-blog-wrapper" key={i} >
+  const blogRecords = blogItems.map((blogItem, i) => (
+    <div className="admin-blog-wrapper" key={i}>
       <BlogItem blogItem={blogItem} />
-      {user && (
-        <a onClick={() => handleDeleteClick(blogItem)}>
-          <IoIosTrash size={39} />
-        </a>
+      {user && blogItem.usuario_id === user.id_users && ( // Verificar que el usuario sea el propietario
+        <div>
+          <a onClick={() => handleEditBlogClick(blogItem)}>
+            <CiCirclePlus size={39} />
+          </a>
+          <a onClick={() => handleDeleteClick(blogItem)}>
+            <IoIosTrash size={39} />
+          </a>
+        </div>
       )}
     </div>
   ));
+  
 
   return (
     <div className="blog-container">
@@ -106,6 +119,7 @@ const Blog = () => {
         handleSuccessfulNewBlogSubmission={handleSuccessfulNewBlogSubmission}
         handleModalClose={handleModalClose}
         modalIsOpen={blogModalIsOpen}
+        post={selectedPost} // Pasamos el post seleccionado o null
       />
 
       {user && (

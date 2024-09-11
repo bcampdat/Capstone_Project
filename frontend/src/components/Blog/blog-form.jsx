@@ -1,132 +1,163 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useContext, useEffect } from "react";
+import { Dropzone, FileMosaic } from "@dropzone-ui/react";
 import axios from "axios";
-import Dropzone from "react-dropzone";
-import RichTextEditor from "../modals/rich-editor";
+import { UserContext } from "../auth/userContext";
+import RichTextEditor from "../modals/rich-text-editor";
 
-const BlogForm = ({ post, editMode, handleUpdateFormSubmission, handleSuccessfullFormSubmission, handleFeaturedImageDelete }) => {
-  const [title, setTitle] = useState("");
-  const [content, setContent] = useState("");
+const BlogForm = ({ post, isEdit, handleSuccessfulNewBlogSubmission }) => {
+  const { user } = useContext(UserContext); // Obtener usuario logueado del contexto
+  const [title, setTitle] = useState(post ? post.title : "");
+  const [content, setContent] = useState(post ? post.content : "");
   const [featuredImage, setFeaturedImage] = useState(null);
-  const [apiUrl, setApiUrl] = useState("http://localhost:3001/api/posts");
-  const [apiAction, setApiAction] = useState("post");
-
-  const dropzoneRef = useRef(null);
 
   useEffect(() => {
-    if (editMode) {
+    if (isEdit && post) {
       setTitle(post.title);
       setContent(post.content);
-      setApiUrl(`http://localhost:3001/api/posts/${post.id}`);
-      setApiAction("patch");
+      setFeaturedImage(
+        post.featured_image ? { file: { name: post.featured_image } } : null
+      );
     }
-  }, [editMode, post]);
+  }, [isEdit, post]);
 
-  const handleDrop = (acceptedFiles) => {
-    setFeaturedImage(acceptedFiles[0]);
+  const handleImageChange = (files) => {
+    setFeaturedImage(files[0].file);
   };
 
-  const buildForm = () => {
+  const uploadImage = async (file) => {
     const formData = new FormData();
-    formData.append("post[title]", title);
-    formData.append("post[content]", content);
-
-    if (featuredImage) {
-      formData.append("post[featured_image]", featuredImage);
-    }
-
-    return formData;
-  };
-
-  const handleSubmit = async (event) => {
-    event.preventDefault();
+    formData.append("image", file);
 
     try {
-      const response = await axios({
-        method: apiAction,
-        url: apiUrl,
-        data: buildForm(),
-        withCredentials: true,
-      });
+      const response = await axios.post(
+        "http://localhost:3001/api/posts/upload-editor-image",
+        formData,
+        {
+          headers: { "Content-Type": "multipart/form-data" },
+        }
+      );
+      return response.data.url; // Devolver la URL de la imagen subida
+    } catch (error) {
+      console.error("Error al subir la imagen:", error);
+      return null;
+    }
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      const formData = new FormData();
+      formData.append("title", title);
+      formData.append("content", content);
+      formData.append("usuario_id", user.id_users); // Asegúrate de que el user ID se incluye
 
       if (featuredImage) {
-        dropzoneRef.current.removeAllFiles();
+        formData.append("featured_image", featuredImage); // Agregar imagen destacada si existe
       }
 
-      // Reset state after submission
-      setTitle("");
-      setContent("");
-      setFeaturedImage(null);
-
-      if (editMode) {
-        handleUpdateFormSubmission(response.data.post);
+      let postId;
+      if (isEdit) {
+        // Si es edición, usar PUT
+        await axios.put(
+          `http://localhost:3001/api/posts/update/${post.id}`,
+          formData,
+          {
+            headers: { "Content-Type": "multipart/form-data" },
+          }
+        );
+        postId = post.id;
       } else {
-        handleSuccessfullFormSubmission(response.data.post);
+        // Si es creación, usar POST
+        const postResponse = await axios.post(
+          "http://localhost:3001/api/posts/create",
+          formData,
+          {
+            headers: { "Content-Type": "multipart/form-data" },
+          }
+        );
+        postId = postResponse.data.postId;
       }
+
+      handleSuccessfulNewBlogSubmission({ id: postId, title, content });
     } catch (error) {
-      console.error("handleSubmit for blog error", error);
+      console.error("Error al guardar el post:", error);
     }
   };
 
-  const deleteImage = async (imageType) => {
+  const handleDelete = async (postId) => {
     try {
-      await axios.delete(
-        `http://localhost:3001/api/posts/${post.id}?image_type=${imageType}`,
-        { withCredentials: true }
+      const response = await axios.delete(
+        `http://localhost:3001/api/posts/delete/${postId}`,
+        {
+          data: { usuario_id: user.id_users },
+        }
       );
-      handleFeaturedImageDelete();
+      if (response.status === 200) {
+        console.log("Post eliminado con éxito");
+        // Aquí puedes actualizar la interfaz de usuario para reflejar la eliminación
+      }
     } catch (error) {
-      console.error("deleteImage error", error);
+      console.error("Error al eliminar el post:", error);
     }
   };
 
   return (
-    <form onSubmit={handleSubmit} className="blog-form-wrapper">
-      <div className="two-column">
+    <form
+      onSubmit={handleSubmit}
+      className="max-w-1xl border border-amber-300 mx-auto bg-transparent p-6 shadow-md"
+    >
+      <div className="mb-4">
+        <label className="block text-sm bg-transparent font-medium dark:text-white">
+          Título del Blog
+        </label>
         <input
+          className="mt-1 block w-full border border-amber-300 shadow-lg bg-transparent dark:text-white"
           type="text"
-          onChange={(e) => setTitle(e.target.value)}
-          name="title"
-          placeholder="Blog Title"
           value={title}
+          onChange={(e) => setTitle(e.target.value)}
+          required
         />
       </div>
 
-      <div className="one-column">
+      <div className="mb-6">
+        <label className="mt-1 block w-full border border-amber-300 shadow-lg bg-transparent dark:text-white">
+          Contenido
+        </label>
         <RichTextEditor
-          handleRichTextEditorChange={setContent}
-          editMode={editMode}
-          contentToEdit={editMode ? post.content : null}
+          value={content}
+          onChange={setContent}
+          onImageUpload={uploadImage}
         />
       </div>
 
-      <div className="image-uploaders">
-        {editMode && post.featured_image ? (
-          <div className="blog-manager-image-wrapper">
-            <img src={post.featured_image} alt="Featured" />
-            <div className="image-removal-link">
-              <button type="button" onClick={() => deleteImage("featured_image")}>
-                Remove file
-              </button>
-            </div>
-          </div>
-        ) : (
-          <Dropzone
-            ref={dropzoneRef}
-            onDrop={handleDrop}
-            accept=".jpg, .png"
-            multiple={false}
-          >
-            {({ getRootProps, getInputProps }) => (
-              <div {...getRootProps()} className="dz-message">
-                <input {...getInputProps()} />
-                {featuredImage ? "File selected: " + featuredImage.name : "Featured Image"}
-              </div>
-            )}
-          </Dropzone>
-        )}
+      <div className="mb-6">
+        <label className="block text-sm border border-amber-300 shadow-lg font-medium bg-transparent dark:text-white">
+          Imagen Destacada
+        </label>
+        <Dropzone
+          onChange={handleImageChange}
+          maxFiles={1}
+          accept="image/*"
+          className="border-dashed border-2 border-amber-300 p-4 rounded-lg shadow-lg dark:text-white"
+        >
+          {featuredImage && (
+            <FileMosaic
+              file={featuredImage}
+              alt="Imagen destacada"
+              width="200px"
+              height="200px"
+              className="mt-4 rounded-lg shadow-lg border border-amber-300"
+            />
+          )}
+        </Dropzone>
       </div>
 
-      <button type="submit" className="btn">Save</button>
+      <button
+        type="submit"
+        className="bg-yellow-500 hover:bg-amber-600 text-white font-bold py-2 px-4 rounded-md transition duration-300 ease-in-out"
+      >
+        {isEdit ? "Actualizar Post" : "Crear Post"}
+      </button>
     </form>
   );
 };

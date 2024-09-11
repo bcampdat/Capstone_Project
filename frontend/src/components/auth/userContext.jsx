@@ -1,5 +1,5 @@
 import React, { createContext, useState, useEffect, useMemo } from "react";
-import PropTypes from "prop-types"; // Importar PropTypes
+import PropTypes from "prop-types"; 
 import axios from "axios";
 
 // Crear contexto del usuario

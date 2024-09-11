@@ -1,12 +1,13 @@
 import React, { useState } from "react";
 import Modal from "react-modal";
+import PropTypes from "prop-types"; 
 import Login from "../User/login";
 import NewUser from "../User/newUser";
 
 Modal.setAppElement("#app-wrapper");
 
 const LoginModal = ({ isOpen, onRequestClose }) => {
-  const [showLogin, setShowLogin] = useState(true); // Estado para alternar entre Login y CreateUser
+  const [showLogin, setShowLogin] = useState(true);
 
   const customStyles = {
     content: {
@@ -50,7 +51,7 @@ const LoginModal = ({ isOpen, onRequestClose }) => {
           <p className="mt-4 text-center">
             ¿No tienes una cuenta?{" "}
             <button
-              onClick={() => setShowLogin(false)} // Cambiar a CreateUser
+              onClick={() => setShowLogin(false)}
               className="text-slate-500 hover:underline"
             >
               Regístrate aquí
@@ -64,7 +65,7 @@ const LoginModal = ({ isOpen, onRequestClose }) => {
           <p className="mt-4 text-center">
             ¿Ya tienes una cuenta?{" "}
             <button
-              onClick={() => setShowLogin(true)} // Cambiar a Login
+              onClick={() => setShowLogin(true)}
               className="text-slate-500 hover:underline"
             >
               Inicia sesión aquí
@@ -74,6 +75,12 @@ const LoginModal = ({ isOpen, onRequestClose }) => {
       )}
     </Modal>
   );
+};
+
+// Prop validation
+LoginModal.propTypes = {
+  isOpen: PropTypes.bool.isRequired, 
+  onRequestClose: PropTypes.func.isRequired, 
 };
 
 export default LoginModal;
