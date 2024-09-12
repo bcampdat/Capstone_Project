@@ -6,9 +6,14 @@ const BlogFeaturedImage = ({ img, altText = "Blog featured image" }) => {
     return null;
   }
 
+  // Asegúrate de que si la URL es relativa, se le añade el host del servidor
+  const imgUrl = img.startsWith("/MyUploads")
+    ? `http://localhost:3001${img}` // Asegúrate de que esta URL coincida con la de tu servidor
+    : img;
+
   return (
     <div className="featured-image-wrapper">
-      <img src={img} alt={altText} className="featured-image" />
+      <img src={imgUrl} alt={altText} className="featured-image" />
     </div>
   );
 };

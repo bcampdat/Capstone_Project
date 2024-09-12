@@ -23,15 +23,15 @@ router.get('/users', (req, res) => {
 
 // Ruta para crear un usuario
 router.post("/users/create", async (req, res) => {
-  const { username, email, password, image } = req.body; // Obtenemos los datos del cuerpo de la solicitud
+  const { username, email, password, foto_users } = req.body; // Asegurarse de obtener `foto_users`
 
   try {
     // Encriptar la contraseña usando bcrypt
     const hashedPassword = await encryptPassword(password);
 
-    // Consulta SQL para insertar un nuevo usuario con la contraseña encriptada
+    // Consulta SQL para insertar un nuevo usuario con la contraseña encriptada y foto_users
     const q = "INSERT INTO usuarios (user_email, user_name, password, foto_users) VALUES (?, ?, ?, ?)";
-    db.query(q, [email, username, hashedPassword, image], (err, data) => {
+    db.query(q, [email, username, hashedPassword, foto_users], (err, data) => {
       if (err) {
         console.error("Error al crear usuario:", err);
         return res.status(500).json({ message: "Error al crear usuario" });
@@ -45,12 +45,12 @@ router.post("/users/create", async (req, res) => {
   }
 });
 
+
 // Ruta para login de usuario
 router.post("/users/login", async (req, res) => {
-  const { username, password } = req.body; // Obtenemos los datos del cuerpo de la solicitud
+  const { username, password } = req.body;
 
   try {
-    // Consulta SQL para buscar al usuario por su nombre de usuario
     const q = "SELECT * FROM usuarios WHERE user_name = ?";
     db.query(q, [username], async (err, data) => {
       if (err) {
@@ -59,23 +59,19 @@ router.post("/users/login", async (req, res) => {
       }
 
       if (data.length === 0) {
-        // No se encontró el usuario
         return res.status(400).json({ message: "Usuario no encontrado" });
       }
 
       const user = data[0];
-
-      // Comparar la contraseña ingresada con la contraseña encriptada almacenada
       const isValidPassword = await comparePasswords(password, user.password);
 
       if (!isValidPassword) {
         return res.status(400).json({ message: "Contraseña incorrecta" });
       }
 
-      // Generar un token JWT para el usuario autenticado
       const token = generateToken(user);
 
-      // Responder con el token y los datos del usuario
+      // Asegurarse de que se está devolviendo correctamente `foto_users`
       res.json({ message: "Inicio de sesión exitoso", token, user });
     });
   } catch (error) {
@@ -84,16 +80,6 @@ router.post("/users/login", async (req, res) => {
   }
 });
 
-// Ruta para actualizar usuario (a completar)
-router.put('/users', (req, res) => {
-  // Lógica para actualizar un usuario
-  res.send('Actualizar usuario!');
-});
 
-// Ruta para eliminar usuario (a completar)
-router.delete('/users', (req, res) => {
-  // Lógica para eliminar un usuario
-  res.send('Eliminar usuario!');
-});
 
 module.exports = router;

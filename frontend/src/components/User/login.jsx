@@ -1,7 +1,7 @@
 import React, { useState, useContext } from "react";
 import axios from "axios";
 import { UserContext } from "../auth/userContext";
-import { FaUserAstronaut } from "react-icons/fa";
+import { FaUserAstronaut, FaUserNinja, FaUserSecret } from "react-icons/fa";
 import { CgUserlane } from "react-icons/cg";
 
 const Login = () => {
@@ -29,6 +29,25 @@ const Login = () => {
         console.error(error);
         setError("Error al iniciar sesión. Verifique sus credenciales.");
       });
+  };
+
+  // Función para mostrar el ícono correcto o el astronauta por defecto
+  const renderIcon = () => {
+    if (user && user.foto_users) {
+      // Mostrar el ícono basado en el valor de foto_users
+      switch (user.foto_users) {
+        case "astronauta":
+          return <FaUserAstronaut className="w-24 h-24 text-gray-700" />;
+        case "ninja":
+          return <FaUserNinja className="w-24 h-24 text-gray-700" />;
+        case "secreto":
+          return <FaUserSecret className="w-24 h-24 text-gray-700" />;
+        default:
+          return <FaUserAstronaut className="w-24 h-24 text-gray-700" />;
+      }
+    }
+    // Si no hay foto_users, mostrar astronauta por defecto
+    return <FaUserAstronaut className="w-24 h-24 text-gray-700" />;
   };
 
   return (
@@ -79,15 +98,8 @@ const Login = () => {
       ) : (
         <div className="flex flex-col items-center">
           <h3 className="text-xl font-bold">{user.user_name}</h3>
-          {user.foto_users ? (
-            <img
-              src={user.foto_users}
-              alt="User"
-              className="w-24 h-24 rounded-full mb-4"
-            />
-          ) : (
-            <FaUserAstronaut className="w-24 h-24 text-gray-700" />
-          )}         
+          {/* Renderizar el ícono basado en foto_users */}
+          {renderIcon()}
         </div>
       )}
     </div>

@@ -127,7 +127,7 @@ const BlogForm = ({ post, isEdit, handleSuccessfulNewBlogSubmission }) => {
               file={featuredImage}
               alt="Imagen destacada"
               width="200px"
-              height="200px"
+              height="300px"
               className="mt-4 rounded-lg shadow-lg border border-amber-300"
             />
           )}
