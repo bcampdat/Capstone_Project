@@ -5,8 +5,7 @@ const BlogFeaturedImage = ({ img, altText = "Blog featured image" }) => {
   if (!img) {
     return null;
   }
-
-  // Asegúrate de que si la URL es relativa, se le añade el host del servidor
+ 
   const imgUrl = img.startsWith("/MyUploads")
     ? `http://localhost:3001${img}` // Ajusta esta URL a la de tu servidor
     : img;

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import PropTypes from "prop-types"; // Importar PropTypes para la validación
+import PropTypes from "prop-types"; 
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 

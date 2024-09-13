@@ -1,5 +1,5 @@
 import React, { useState, useContext, useEffect } from "react";
-import PropTypes from "prop-types"; 
+import PropTypes from "prop-types";
 import { Dropzone, FileMosaic } from "@dropzone-ui/react";
 import axios from "axios";
 import { UserContext } from "../auth/userContext";
@@ -17,14 +17,19 @@ const BlogForm = ({ post, isEdit, handleSuccessfulNewBlogSubmission }) => {
       setContent(post.content);
       setFeaturedImage(
         post.featured_image
-          ? { file: { name: post.featured_image, preview: `http://localhost:3001${post.featured_image}` } } // Asegura que tienes la URL completa
+          ? {
+              file: {
+                name: post.featured_image,
+                preview: `http://localhost:3001${post.featured_image}`,
+              },
+            } // Asegura que tienes la URL completa
           : null
       );
     }
   }, [isEdit, post]);
 
   const handleImageChange = (files) => {
-    setFeaturedImage(files[0]); // Guardamos todo el archivo en el estado
+    setFeaturedImage(files[0]); // Guardamos  el archivo en el estado
   };
 
   const uploadImage = async (file) => {
@@ -95,54 +100,59 @@ const BlogForm = ({ post, isEdit, handleSuccessfulNewBlogSubmission }) => {
       className="max-w-1xl border border-amber-300 mx-auto bg-transparent p-6 shadow-md"
     >
       <div className="mb-4">
-        <label className="block text-sm bg-transparent font-medium dark:text-white">
+        <label className="block text-sm font-medium dark:text-white">
           Título del Blog
         </label>
         <input
-          className="mt-1 block w-full border border-amber-300 shadow-lg bg-transparent dark:text-white"
+          className="mt-1 block w-full border border-amber-300 p-2 rounded-lg shadow-lg bg-transparent dark:text-white"
           type="text"
           value={title}
           onChange={(e) => setTitle(e.target.value)}
+          placeholder="Escribe tu título...."
           required
         />
       </div>
 
-      <div className="mb-6">
-        <label className="mt-1 block w-full border border-amber-300 shadow-lg bg-transparent dark:text-white">
+      <div className="mb-4">
+        <label className="text-sm font-medium dark:text-white">
           Contenido
         </label>
-        <RichTextEditor
-          value={content}
-          onChange={setContent}
-          onImageUpload={uploadImage}
-        />
+        <div className="mt-1 block w-full border border-amber-300 p-2 rounded-lg shadow-lg ">
+          <RichTextEditor
+            value={content}
+            onChange={setContent}
+            onImageUpload={uploadImage}
+          />
+        </div>
       </div>
 
       <div className="mb-6">
-        <label className="block text-sm border border-amber-300 shadow-lg font-medium bg-transparent dark:text-white">
+        <label className="block text-sm font-medium dark:text-white">
           Imagen Destacada
         </label>
-        <Dropzone
-          onChange={handleImageChange}
-          maxFiles={1}
-          accept="image/*"
-          className="border-dashed border-2 border-amber-300 p-4 rounded-lg shadow-lg dark:text-white"
-        >
-          {featuredImage && (
-            <FileMosaic
-              file={featuredImage}
-              alt="Imagen destacada"
-              width="200px"
-              height="300px"
-              className="mt-4 rounded-lg shadow-lg border border-amber-300"
-            />
-          )}
-        </Dropzone>
+        <div className="mt-1 block w-full border border-amber-300 p-2 rounded-lg shadow-lg">
+          <Dropzone
+            onChange={handleImageChange}
+            maxFiles={1}
+            accept="image/*"
+            className="border dark:text-white border-amber-300 rounded-md p-2 shadow-md "
+          >
+            {featuredImage && (
+              <FileMosaic
+                file={featuredImage}
+                alt="Imagen destacada"
+                width="200px"
+                height="300px"
+                className="mt-2 rounded-md shadow-md border border-amber-300 dark:text-white"
+              />
+            )}
+          </Dropzone>
+        </div>
       </div>
 
       <button
         type="submit"
-        className="bg-yellow-500 hover:bg-amber-600 text-white font-bold py-2 px-4 rounded-md transition duration-300 ease-in-out"
+        className="bg-neutral-700 hover:bg-sky-300 shadow-lg font-bold py-2 px-4 rounded-md transition duration-300 ease-in-out"
       >
         {isEdit ? "Actualizar Post" : "Crear Post"}
       </button>

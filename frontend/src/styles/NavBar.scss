@@ -1,0 +1,71 @@
+// azul #389bff
+
+// Variables para reutilizar colores
+$color-azul-cielo: #87ceeb; // Color azul cielo
+
+.navbar {
+  ul {
+    li {
+      position: relative;
+
+      a {
+        text-decoration: none;
+        position: relative;
+        padding-bottom: 5px; // Asegura un pequeño espacio para la línea
+        transition: color 0.3s ease; // Mantenemos la transición suave de color
+
+        &::after {
+          content: "";
+          position: absolute;
+          width: 0;
+          height: 2px;
+          background-color: $color-azul-cielo; // Color de la línea azul cielo
+          left: 0;
+          bottom: -2px; // Ubica la línea justo debajo del texto
+          transition: width 0.3s ease; // Transición suave para la línea
+        }
+
+        // Hover y enlaces activos muestran la línea azul cielo
+        &:hover::after,
+        &.active::after {
+          width: 100%; // La línea azul cielo se extiende al 100%
+        }
+      }
+    }
+  }
+
+  .user-icon {
+    transition: transform 0.3s ease, color 0.3s ease; // Transición para el tamaño y color del contenedor
+  
+    svg {
+      color: #f8f9fa; // Color azul cielo por defecto
+      transition: color 0.3s ease; // Transición suave para el color
+    }
+  
+    &:hover {
+      transform: scale(1.2); // Ampliar el icono al hacer hover
+  
+      svg {
+        color: #87ceeb; // Cambiar el color del icono a blanco al hacer hover
+      }
+    }
+  }
+  
+
+  .user-name {
+    color: #87ceeb; // Color azul cielo para el nombre del usuario
+    text-transform: uppercase;
+  }
+  .logout {
+    transition: transform 0.3s ease, color 0.3s ease; // Transición para tamaño y color
+
+    &:hover {
+      transform: scale(1.2); // Aumenta el tamaño del icono al hacer hover
+      color: #87ceeb; // Cambia el color del icono a azul cielo
+    }
+
+    svg {
+      color: #f8f9fa; // Color blanco inicial
+    }
+  }
+}

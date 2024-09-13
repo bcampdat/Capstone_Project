@@ -67,7 +67,7 @@ const BlogDetail = () => {
       );
     } else {
       return (
-        <div className="content-container">
+        <div className="content-container ">
           <h1 onClick={handleEditClick}>{title}</h1>
           <BlogFeaturedImage img={featured_image} />
           <div className="content">{ReactHtmlParser(content) }</div>
@@ -90,8 +90,8 @@ const BlogDetail = () => {
           marginBottom: "10px",
         }}
       >
-        <FaReply size={50} />
-        <span style={{ color: "#c7a732", marginLeft: "5px" }}></span>
+        <FaReply size={50} style={{ color: "#a4d8ec" }} />
+        {/* <span style={{ color: "#c7a732", marginLeft: "5px" }}></span> */}
       </button>
     </div>
   );

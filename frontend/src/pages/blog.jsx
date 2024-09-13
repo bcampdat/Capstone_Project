@@ -100,11 +100,11 @@ const Blog = () => {
     <div className="admin-blog-wrapper" key={i}>
       <BlogItem blogItem={blogItem} />
       {user && blogItem.usuario_id === user.id_users && ( // Verificar que el usuario sea el propietario
-        <div>
-          <a onClick={() => handleEditBlogClick(blogItem)}>
-            <CiCirclePlus size={39} />
+        <div className="admin-blog-icons">
+          <a className="edit" onClick={() => handleEditBlogClick(blogItem)}>
+            <CiCirclePlus size={39}  />
           </a>
-          <a onClick={() => handleDeleteClick(blogItem)}>
+          <a className="delete" onClick={() => handleDeleteClick(blogItem)}>
             <IoIosTrash size={39} />
           </a>
         </div>
@@ -125,7 +125,7 @@ const Blog = () => {
       {user && (
         <div className="new-blog-link">
           <a onClick={handleNewBlogClick}>
-            <CiCirclePlus size={50} />
+            <CiCirclePlus size={80} />
           </a>
         </div>
       )}
@@ -134,7 +134,7 @@ const Blog = () => {
 
       {isLoading && (
         <div className="content-loader">
-          <ImSpinner size={39} />
+          <ImSpinner size={40} />
         </div>
       )}
     </div>

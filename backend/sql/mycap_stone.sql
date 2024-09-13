@@ -57,7 +57,7 @@ DROP TABLE IF EXISTS `posts`;
 CREATE TABLE `posts` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `title` varchar(100) NOT NULL,
-  `content` text NOT NULL,
+  `content` Longtext NOT NULL,
   `featured_image` varchar(255) DEFAULT NULL,
   `usuario_id` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`),
@@ -89,7 +89,7 @@ CREATE TABLE `usuarios` (
   `user_email` varchar(100) NOT NULL,
   `password` varchar(255) NOT NULL,
   `foto_users` varchar(255) DEFAULT NULL,
-  `role` enum('user','guest','admin') DEFAULT 'guest',
+  `role` enum('guest','admin') DEFAULT 'guest',
   PRIMARY KEY (`id_users`)
 ) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;

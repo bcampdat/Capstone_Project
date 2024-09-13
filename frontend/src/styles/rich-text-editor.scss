@@ -1,0 +1,29 @@
+/* RichTextEditor.css */
+
+/* Cambiar el fondo del toolbar */
+.ql-toolbar {
+  background-color: #a4d8ec; /* Color azul cielo */
+}
+
+/* Cambiar el color de los íconos del toolbar */
+.ql-toolbar button svg {
+  fill: #ffffff; /* Color blanco para los íconos */
+}
+
+/* Cambiar el color de los íconos cuando estén activos (por ejemplo, negrita, cursiva activada) */
+.ql-toolbar button.ql-active svg {
+  fill: #000000; /* Color negro para íconos activos */
+}
+
+/* Cambiar el color de los íconos al pasar el cursor (hover) sobre ellos */
+.ql-toolbar button:hover svg {
+  fill: #ffbf00; /* Color ámbar al pasar el cursor */
+}
+
+/* Cambiar el color del texto placeholder */
+.p,
+.ql-container.ql-snow .ql-editor.ql-blank::before {
+  color: rgb(205, 177, 50); /* Color personalizado para el placeholder */
+}
+
+

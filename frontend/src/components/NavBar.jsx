@@ -27,9 +27,9 @@ const NavBar = () => {
   };
 
   return (
-    <nav className="text-3xl dark:bg-gray-400 dark:text-white w-full mt-10">
-      <div className="flex items-center justify-between">
-        <h1 className="dark:text-white text-3xl ml-5">LOGO</h1>
+    <nav className="nav-wrapper text-3xl dark:bg-gray-400 dark:text-white w-full mt-10">
+      <div className="navbar flex items-center justify-between">
+        <h1 className="logo dark:text-white text-3xl ml-5">LOGO</h1>
         <div className="md:hidden">
           <button
             onClick={() => setIsLoginOpen(!isLoginOpen)}
@@ -85,10 +85,10 @@ const NavBar = () => {
               </li>
               <li>
                 <div className="flex items-center">
-                  {renderIcon()}
-                  <span className="ml-2">{user.user_name}</span>
+                  <div className="user-icon">{renderIcon()}</div> 
+                  <span className="user-name ml-2">{user.user_name}</span>
                   <button onClick={logoutUser} className="text-white-800 ml-4">
-                    <LuLogOut className="mr-4" />
+                    <LuLogOut className="mr-4 logout " />
                   </button>
                 </div>
               </li>

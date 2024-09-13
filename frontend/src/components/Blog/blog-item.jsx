@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
 import striptags from "striptags";
 import TextTruncate from "react-text-truncate";
-import BlogFeaturedImage from "./blog-featured-image"; // Asegúrate de que la ruta es correcta
+import BlogFeaturedImage from "./blog-featured-image"; 
 
 const BlogItem = ({ blogItem }) => {
   const { id, content, title, featured_image } = blogItem;

@@ -86,32 +86,50 @@ router.post("/posts/create", morgan("dev"), featuredImageUpload, (req, res) => {
   });
 });
 
-// Ruta para actualizar un post existente
 router.put("/posts/update/:id", morgan("dev"), featuredImageUpload, (req, res) => {
   const postId = req.params.id;
-  const { title, content, usuario_id } = req.body; // usuario_id enviado desde el frontend
-  const featuredImage = req.file ? `/MyUploads/featuredImages/${req.file.filename}` : null;
+  const { title, content, usuario_id, remove_image } = req.body; 
+  const newFeaturedImage = req.file ? `/MyUploads/featuredImages/${req.file.filename}` : null;
 
-  const qSelect = "SELECT usuario_id FROM posts WHERE id = ?";
-  db.query(qSelect, [postId], (err, result) => {
+  // Consulta para verificar si el post pertenece al usuario autenticado
+  const qSelect = `
+    SELECT posts.*, usuarios.id_users 
+    FROM posts 
+    JOIN usuarios ON posts.usuario_id = usuarios.id_users 
+    WHERE posts.id = ? AND usuarios.id_users = ?
+  `;
+
+  db.query(qSelect, [postId, usuario_id], (err, result) => {
     if (err) {
       console.error("Error al obtener el post:", err);
       return res.status(500).json({ message: "Error del servidor" });
     }
 
     if (result.length === 0) {
-      return res.status(404).json({ message: "Post no encontrado" });
+      return res.status(403).json({ message: "No autorizado para actualizar este post o post no encontrado" });
     }
 
     const post = result[0];
+    const oldImagePath = post.featured_image ? path.join(__dirname, "..", post.featured_image) : null;
 
-    // Verificar si el usuario logueado es el propietario
-    if (post.usuario_id !== usuario_id) {
-      return res.status(403).json({ message: "No autorizado para actualizar este post" });
+    // Caso 1: Eliminar la imagen si se envía la opción de eliminar (remove_image) o si se sube una nueva
+    if (remove_image === "true" || newFeaturedImage) {
+      if (oldImagePath && fs.existsSync(oldImagePath)) {
+        fs.unlink(oldImagePath, (err) => {
+          if (err) {
+            console.error("Error al eliminar la imagen antigua:", err);
+          }
+        });
+      }
     }
 
-    const qUpdate = "UPDATE posts SET title = ?, content = ?, featured_image = ? WHERE id = ?";
-    db.query(qUpdate, [title, content, featuredImage, postId], (err, data) => {
+    // Caso 2: Actualización de los datos del post
+    const updatedImage = newFeaturedImage ? newFeaturedImage : (remove_image === "true" ? null : post.featured_image);
+
+    const qUpdate = `
+      UPDATE posts SET title = ?, content = ?, featured_image = ? WHERE id = ?
+    `;
+    db.query(qUpdate, [title, content, updatedImage, postId], (err, data) => {
       if (err) {
         console.error("Error al actualizar el post:", err);
         return res.status(500).json({ message: "Error al actualizar el post" });
@@ -120,6 +138,7 @@ router.put("/posts/update/:id", morgan("dev"), featuredImageUpload, (req, res) =
     });
   });
 });
+
 
 // Ruta para eliminar un post existente y su imagen destacada
 router.delete("/posts/delete/:id", morgan("dev"), (req, res) => {

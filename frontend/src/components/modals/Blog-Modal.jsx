@@ -21,7 +21,7 @@ const BlogModal = ({ modalIsOpen, handleModalClose, post, handleSuccessfulNewBlo
       zIndex: 1000, // Aseguramos que el modal esté por encima de otros elementos
       backgroundColor: "transparent", // Fondo blanco para asegurar visibilidad
       padding: "20px", // Añadir padding para evitar que los elementos toquen los bordes
-      boxShadow: "0 4px 8px rgba(0, 0, 0, 0.2)" // Añadir una sombra para mejor visibilidad
+      boxShadow: "0 4px 8px rgba(0, 0, 0, 0.25)" // Añadir una sombra para mejor visibilidad
     },
     overlay: {
       backgroundColor: "rgba(1, 1, 1, 0.75)",
