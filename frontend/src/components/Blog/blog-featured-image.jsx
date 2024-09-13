@@ -1,5 +1,5 @@
 import React from "react";
-import PropTypes from "prop-types"; 
+import PropTypes from "prop-types";
 
 const BlogFeaturedImage = ({ img, altText = "Blog featured image" }) => {
   if (!img) {
@@ -8,7 +8,7 @@ const BlogFeaturedImage = ({ img, altText = "Blog featured image" }) => {
 
   // Asegúrate de que si la URL es relativa, se le añade el host del servidor
   const imgUrl = img.startsWith("/MyUploads")
-    ? `http://localhost:3001${img}` // Asegúrate de que esta URL coincida con la de tu servidor
+    ? `http://localhost:3001${img}` // Ajusta esta URL a la de tu servidor
     : img;
 
   return (
@@ -20,8 +20,8 @@ const BlogFeaturedImage = ({ img, altText = "Blog featured image" }) => {
 
 // Validación de tipos con PropTypes
 BlogFeaturedImage.propTypes = {
-  img: PropTypes.string, 
-  altText: PropTypes.string, 
+  img: PropTypes.string, // La URL de la imagen
+  altText: PropTypes.string, // Texto alternativo para la imagen
 };
 
 export default BlogFeaturedImage;

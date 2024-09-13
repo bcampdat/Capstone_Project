@@ -12,7 +12,7 @@ const featuredImageStorage = multer.diskStorage({
   destination: path.join(__dirname, "../MyUploads/featuredImages"),
   filename: (req, file, cb) => {
     const postId = req.body.postId || uuidv4();
-    cb(null, `${postId}-${uuidv4()}${path.extname(file.originalname)}`);
+    cb(null, `${postId}-${uuidv4().slice(0,12)}${path.extname(file.originalname)}`);
   },
 });
 

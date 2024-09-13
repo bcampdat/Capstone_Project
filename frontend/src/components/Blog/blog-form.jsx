@@ -16,13 +16,15 @@ const BlogForm = ({ post, isEdit, handleSuccessfulNewBlogSubmission }) => {
       setTitle(post.title);
       setContent(post.content);
       setFeaturedImage(
-        post.featured_image ? { file: { name: post.featured_image } } : null
+        post.featured_image
+          ? { file: { name: post.featured_image, preview: `http://localhost:3001${post.featured_image}` } } // Asegura que tienes la URL completa
+          : null
       );
     }
   }, [isEdit, post]);
 
   const handleImageChange = (files) => {
-    setFeaturedImage(files[0].file);
+    setFeaturedImage(files[0]); // Guardamos todo el archivo en el estado
   };
 
   const uploadImage = async (file) => {
@@ -52,8 +54,12 @@ const BlogForm = ({ post, isEdit, handleSuccessfulNewBlogSubmission }) => {
       formData.append("content", content);
       formData.append("usuario_id", user.id_users); // Incluir el ID del usuario
 
-      if (featuredImage) {
-        formData.append("featured_image", featuredImage);
+      if (featuredImage && featuredImage.file instanceof File) {
+        // Si es un archivo nuevo, lo subimos
+        formData.append("featured_image", featuredImage.file);
+      } else if (featuredImage && featuredImage.file.name) {
+        // Si es la imagen existente, solo pasamos el nombre
+        formData.append("featured_image", featuredImage.file.name);
       }
 
       let postId;

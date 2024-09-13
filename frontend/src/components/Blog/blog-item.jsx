@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
 import striptags from "striptags";
 import TextTruncate from "react-text-truncate";
+import BlogFeaturedImage from "./blog-featured-image"; // Asegúrate de que la ruta es correcta
 
 const BlogItem = ({ blogItem }) => {
   const { id, content, title, featured_image } = blogItem;
@@ -16,13 +17,7 @@ const BlogItem = ({ blogItem }) => {
       </header>
 
       {featured_image && (
-        <figure className="featured-image-wrapper">
-          <img
-            src={featured_image}
-            alt={title || "Blog featured image"}
-            className="featured-image"
-          />
-        </figure>
+        <BlogFeaturedImage img={featured_image} altText={title} />
       )}
 
       <div className="blog-content">
