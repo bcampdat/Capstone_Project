@@ -2,7 +2,8 @@
 import React, { useState, useEffect, useContext } from "react";
 import moment from "moment";
 import "moment/locale/es";
-import { Calendar, momentLocalizer } from "react-big-calendar";
+import { localizerMoment, messages } from "./locale";
+import { Calendar } from "react-big-calendar";
 import "react-big-calendar/lib/sass/styles.scss";
 import axios from "axios";
 import { UserContext } from "../auth/userContext";
@@ -14,7 +15,6 @@ const API_URL = "http://localhost:3001/api/events";
 
 export default function MyCalendar() {
   const { user } = useContext(UserContext);
-  const localizer = momentLocalizer(moment);
   const [events, setEvents] = useState([]);
   const [formData, setFormData] = useState({
     title: "",
@@ -126,10 +126,11 @@ export default function MyCalendar() {
   return (
     <div className="text-2xl text-center mt-10">
       <Calendar
-        localizer={localizer}
+        localizer={localizerMoment}
         events={events}
         style={{ height: "95vh", background: "black" }}
         defaultView="month"
+        messages={messages} 
         components={{
           event: EventCard,
         }}
