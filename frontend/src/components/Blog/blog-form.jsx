@@ -57,7 +57,7 @@ const BlogForm = ({ post, isEdit, handleSuccessfulNewBlogSubmission }) => {
       const formData = new FormData();
       formData.append("title", title);
       formData.append("content", content);
-      formData.append("usuario_id", user.id_users); // Incluir el ID del usuario
+      formData.append("usuario_id", user.id_users); 
 
       if (featuredImage && featuredImage.file instanceof File) {
         // Si es un archivo nuevo, lo subimos

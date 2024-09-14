@@ -12,6 +12,7 @@ import TextField from '@mui/material/TextField';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Modal from '@mui/material/Modal';
+import { UserContext } from "./auth/userContext";
 
 moment.locale("es-ES", {
   week: {
@@ -19,9 +20,10 @@ moment.locale("es-ES", {
   },
 });
 
-const API_URL = "http://localhost:3001/api/events"; // URL actualizada con el puerto correcto
+const API_URL = "http://localhost:3001/api/events"; 
 
 export default function MyCalendar() {
+  const { user } = React.useContext(UserContext);
   const localizer = momentLocalizer(moment);
   const [events, setEvents] = useState([]);
   const [formData, setFormData] = useState({
@@ -29,6 +31,7 @@ export default function MyCalendar() {
     content: "",
     start: "",
     end: "",
+    usuario_id: user.id_users
   });
   const [selectedEvent, setSelectedEvent] = useState(null);
   const [drawerOpen, setDrawerOpen] = useState(false);
@@ -122,7 +125,7 @@ export default function MyCalendar() {
       content: formData.content,
       start: new Date(formData.start).toISOString(),
       end: new Date(formData.end).toISOString(),
-      usuario_id: 1, // Asumiendo que el ID del usuario es 1; cambiar según sea necesario
+      usuario_id: user.id_users// Asumiendo que el ID del usuario es 1; cambiar según sea necesario
     };
     handleCreateEvent(eventData);
   };

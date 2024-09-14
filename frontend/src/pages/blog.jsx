@@ -3,7 +3,7 @@ import axios from "axios";
 import { IoIosTrash } from "react-icons/io";
 import { ImSpinner } from "react-icons/im";
 import { CiCirclePlus } from "react-icons/ci";
-
+import { FaArrowUp } from "react-icons/fa"; // Importamos el ícono de flecha para subir
 import BlogModal from "../components/modals/Blog-Modal";
 import BlogItem from "../components/Blog/blog-item";
 
@@ -17,6 +17,9 @@ const Blog = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [blogModalIsOpen, setBlogModalIsOpen] = useState(false);
   const [selectedPost, setSelectedPost] = useState(null); // Para manejar la edición de posts
+
+  // Estado para mostrar u ocultar el botón de "volver arriba"
+  const [showScroll, setShowScroll] = useState(false);
 
   const getBlogItems = useCallback(() => {
     setCurrentPage((prevPage) => prevPage + 1);
@@ -73,7 +76,6 @@ const Blog = () => {
         console.log("delete blog error", error);
       });
   };
-  
 
   const handleNewBlogClick = () => {
     setSelectedPost(null); // No hay post seleccionado para una nueva creación
@@ -84,7 +86,6 @@ const Blog = () => {
     setSelectedPost(post); // Pasamos el post seleccionado para edición
     setBlogModalIsOpen(true); // Abre el modal para edición
   };
-  
 
   const handleModalClose = () => {
     setBlogModalIsOpen(false);
@@ -96,13 +97,35 @@ const Blog = () => {
     setBlogItems((prevItems) => [post, ...prevItems]);
   };
 
+  // Función para detectar el scroll y mostrar el botón si se ha scrolleado hacia abajo
+  const checkScrollTop = () => {
+    if (!showScroll && window.pageYOffset > 300) {
+      setShowScroll(true);
+    } else if (showScroll && window.pageYOffset <= 300) {
+      setShowScroll(false);
+    }
+  };
+
+  // Añadir el event listener al hacer scroll
+  useEffect(() => {
+    window.addEventListener("scroll", checkScrollTop);
+    return () => {
+      window.removeEventListener("scroll", checkScrollTop);
+    };
+  }, [showScroll]);
+
+  // Función para volver al inicio de la página
+  const scrollToTop = () => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
+
   const blogRecords = blogItems.map((blogItem, i) => (
     <div className="admin-blog-wrapper" key={i}>
       <BlogItem blogItem={blogItem} />
       {user && blogItem.usuario_id === user.id_users && ( // Verificar que el usuario sea el propietario
         <div className="admin-blog-icons">
           <a className="edit" onClick={() => handleEditBlogClick(blogItem)}>
-            <CiCirclePlus size={39}  />
+            <CiCirclePlus size={39} />
           </a>
           <a className="delete" onClick={() => handleDeleteClick(blogItem)}>
             <IoIosTrash size={39} />
@@ -111,7 +134,6 @@ const Blog = () => {
       )}
     </div>
   ));
-  
 
   return (
     <div className="blog-container">
@@ -123,7 +145,7 @@ const Blog = () => {
       />
 
       {user && (
-        <div className="new-blog-link">
+        <div className="new-blog-link mb-5">
           <a onClick={handleNewBlogClick}>
             <CiCirclePlus size={80} />
           </a>
@@ -136,6 +158,26 @@ const Blog = () => {
         <div className="content-loader">
           <ImSpinner size={40} />
         </div>
+      )}
+
+      {/* Botón de volver arriba */}
+      {showScroll && (
+        <FaArrowUp
+          className="scrollTop"
+          onClick={scrollToTop}
+          style={{
+            position: "fixed",
+            bottom: "40px",
+            right: "20px",
+            height: "40px",
+            width: "40px",
+            backgroundColor: "rgba(255, 193, 7, 0.8)",
+            borderRadius: "50%",
+            padding: "10px",
+            cursor: "pointer",
+            transition: "opacity 0.5s",
+          }}
+        />
       )}
     </div>
   );

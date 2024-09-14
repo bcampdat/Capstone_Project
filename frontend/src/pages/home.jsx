@@ -11,8 +11,14 @@ const Home = () => {
         <h1 className="text-2xl font-bold">Página de inicio</h1>
         
         <div className="flex gap-2 justify-center">
-          <button className="bg-amber-400 text-white font-semibold py-2 px-4 rounded-lg hover:bg-amber-600 transition-colors duration-300"
-          >Bienvenido</button>
+        <button
+            className="bg-amber-400 text-white font-semibold py-2 px-4 rounded-lg hover:bg-amber-600 transition-colors duration-300"
+            // onClick={() => {
+            //   window.location.href = "/About";
+            // }}
+          >
+            Bienvenido
+          </button>
         </div>
       </div>
       <Lottie
