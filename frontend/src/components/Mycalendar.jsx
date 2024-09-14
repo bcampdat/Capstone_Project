@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import moment from "moment";
 import "moment/locale/es";
 import { Calendar, momentLocalizer } from "react-big-calendar";
@@ -6,24 +6,24 @@ import "react-big-calendar/lib/sass/styles.scss";
 import { TfiAgenda } from "react-icons/tfi";
 import { FaCalendarCheck } from "react-icons/fa";
 import axios from "axios";
-import Drawer from '@mui/material/Drawer';
-import Button from '@mui/material/Button';
-import TextField from '@mui/material/TextField';
-import Box from '@mui/material/Box';
-import Typography from '@mui/material/Typography';
-import Modal from '@mui/material/Modal';
+import Drawer from "@mui/material/Drawer";
+import Button from "@mui/material/Button";
+import TextField from "@mui/material/TextField";
+import Box from "@mui/material/Box";
+import Typography from "@mui/material/Typography";
+import Modal from "@mui/material/Modal";
 import { UserContext } from "./auth/userContext";
 
 moment.locale("es-ES", {
   week: {
-    dow: 1, // Monday is the first day of the week
+    dow: 1, // Lunes como primer día de la semana
   },
 });
 
-const API_URL = "http://localhost:3001/api/events"; 
+const API_URL = "http://localhost:3001/api/events";
 
 export default function MyCalendar() {
-  const { user } = React.useContext(UserContext);
+  const { user } = useContext(UserContext); // Obtiene el usuario desde el contexto
   const localizer = momentLocalizer(moment);
   const [events, setEvents] = useState([]);
   const [formData, setFormData] = useState({
@@ -31,85 +31,88 @@ export default function MyCalendar() {
     content: "",
     start: "",
     end: "",
-    usuario_id: user.id_users
+    usuario_id: user.id_users, // Incluye el usuario_id en los datos del formulario
   });
   const [selectedEvent, setSelectedEvent] = useState(null);
   const [drawerOpen, setDrawerOpen] = useState(false);
   const [modalOpen, setModalOpen] = useState(false);
 
   // Cargar eventos desde la API
-  useEffect(() => {
-    axios
-      .get(API_URL)
-      .then((response) => {
-        const fetchedEvents = response.data.map((event) => ({
-          id: event.id,
-          title: event.title,
-          start: new Date(event.start),
-          end: new Date(event.end),
-        }));
-        setEvents(fetchedEvents);
-      })
-      .catch((error) => console.error("Error al cargar eventos:", error));
-  }, []);
+  // Cargar eventos del usuario logueado desde la API
+useEffect(() => {
+  axios
+    .get(`${API_URL}?usuario_id=${user.id_users}`) // Enviar el usuario_id como parámetro
+    .then((response) => {
+      const fetchedEvents = response.data.map((event) => ({
+        id: event.id_events,
+        title: event.title,
+        start: new Date(event.start),
+        end: new Date(event.end),
+      }));
+      setEvents(fetchedEvents);
+    })
+    .catch((error) => console.error("Error al cargar eventos:", error));
+}, [user.id_users]);
 
+  // Manejar selección de espacio vacío para crear un nuevo evento
   const handleSelectSlot = ({ start }) => {
     setSelectedEvent(null);
     setFormData({
       title: "",
       content: "",
       start: moment(start).format("YYYY-MM-DDTHH:mm"),
-      end: moment(start).add(1, 'hour').format("YYYY-MM-DDTHH:mm"),
+      end: moment(start).add(1, "hour").format("YYYY-MM-DDTHH:mm"),
+      usuario_id: user.id_users, // Asegúrate de que el usuario_id esté presente
     });
     setDrawerOpen(true);
   };
 
+  // Crear un nuevo evento
   const handleCreateEvent = (eventData) => {
     axios
-      .post(API_URL, eventData)
+      .post(`${API_URL}/create`, {
+        ...eventData,
+        usuario_id: user.id_users, // Asegura que se incluya el usuario_id
+      })
       .then((response) => {
         console.log("Evento creado:", response.data);
         setEvents([
           ...events,
-          {
-            ...eventData,
-            id: response.data.id
-          },
+          { ...eventData, id: response.data.eventId },
         ]);
         setDrawerOpen(false);
-        setFormData({
-          title: "",
-          content: "",
-          start: "",
-          end: "",
-        });
       })
       .catch((error) => console.error("Error al crear evento:", error));
   };
+  
 
   const handleUpdateEvent = (eventData) => {
     axios
-      .put(`${API_URL}/${selectedEvent.id}`, eventData)
+      .put(`${API_URL}/update/${selectedEvent.id}`, {
+        ...eventData,
+        usuario_id: user.id_users, // Asegura que se incluya el usuario_id
+      })
       .then((response) => {
         console.log("Evento actualizado:", response.data);
         setEvents(events.map(event => event.id === selectedEvent.id ? { ...eventData, id: selectedEvent.id } : event));
         setModalOpen(false);
-        setSelectedEvent(null);
       })
       .catch((error) => console.error("Error al actualizar evento:", error));
   };
+  
 
+  // Eliminar un evento
   const handleDeleteEvent = () => {
     axios
-      .delete(`${API_URL}/${selectedEvent.id}`)
+      .delete(`${API_URL}/delete/${selectedEvent.id}?usuario_id=${user.id_users}`) // Incluye el usuario_id como query param
       .then(() => {
-        setEvents(events.filter(event => event.id !== selectedEvent.id));
+        setEvents(events.filter((event) => event.id !== selectedEvent.id));
         setModalOpen(false);
-        setSelectedEvent(null);
       })
       .catch((error) => console.error("Error al eliminar evento:", error));
   };
-
+  
+  // Manejar cambios en los inputs del formulario
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setFormData({
@@ -118,6 +121,7 @@ export default function MyCalendar() {
     });
   };
 
+  // Enviar el formulario para crear un nuevo evento
   const handleSubmit = (e) => {
     e.preventDefault();
     const eventData = {
@@ -125,11 +129,12 @@ export default function MyCalendar() {
       content: formData.content,
       start: new Date(formData.start).toISOString(),
       end: new Date(formData.end).toISOString(),
-      usuario_id: user.id_users// Asumiendo que el ID del usuario es 1; cambiar según sea necesario
+      usuario_id: user.id_users, // Incluye el usuario_id
     };
     handleCreateEvent(eventData);
   };
 
+  // Manejar clic en un evento para abrir el modal de edición
   const handleEventClick = (event) => {
     setSelectedEvent(event);
     setFormData({
@@ -137,10 +142,12 @@ export default function MyCalendar() {
       content: event.content || "",
       start: moment(event.start).format("YYYY-MM-DDTHH:mm"),
       end: moment(event.end).format("YYYY-MM-DDTHH:mm"),
+      usuario_id: user.id_users, // Asegúrate de tener el usuario_id cuando se edita
     });
     setModalOpen(true);
   };
 
+  // Cerrar el modal de edición
   const handleCloseModal = () => {
     setModalOpen(false);
     setSelectedEvent(null);
@@ -179,7 +186,7 @@ export default function MyCalendar() {
         anchor="left"
         open={drawerOpen}
         onClose={() => setDrawerOpen(false)}
-        PaperProps={{ style: { width: 300 } }} // Ancho del panel
+        PaperProps={{ style: { width: 300 } }}
       >
         <Box sx={{ padding: 2 }}>
           <Typography variant="h6">Crear Evento</Typography>
@@ -240,21 +247,20 @@ export default function MyCalendar() {
           </form>
         </Box>
       </Drawer>
-      <Modal
-        open={modalOpen}
-        onClose={handleCloseModal}
-      >
-        <Box sx={{ 
-          position: 'absolute',
-          top: '50%',
-          left: '50%',
-          transform: 'translate(-50%, -50%)',
-          width: 400,
-          bgcolor: 'background.paper',
-          borderRadius: 2,
-          boxShadow: 24,
-          p: 4,
-        }}>
+      <Modal open={modalOpen} onClose={handleCloseModal}>
+        <Box
+          sx={{
+            position: "absolute",
+            top: "50%",
+            left: "50%",
+            transform: "translate(-50%, -50%)",
+            width: 400,
+            bgcolor: "background.paper",
+            borderRadius: 2,
+            boxShadow: 24,
+            p: 4,
+          }}
+        >
           <Typography variant="h6" component="h2" mb={2}>
             Editar Evento
           </Typography>
@@ -298,21 +304,19 @@ export default function MyCalendar() {
             <Button
               variant="contained"
               color="primary"
-              onClick={() => handleUpdateEvent({
-                title: formData.title,
-                content: formData.content,
-                start: new Date(formData.start).toISOString(),
-                end: new Date(formData.end).toISOString(),
-              })}
+              onClick={() =>
+                handleUpdateEvent({
+                  title: formData.title,
+                  content: formData.content,
+                  start: new Date(formData.start).toISOString(),
+                  end: new Date(formData.end).toISOString(),
+                })
+              }
               sx={{ mr: 1 }}
             >
               Actualizar
             </Button>
-            <Button
-              variant="outlined"
-              color="error"
-              onClick={handleDeleteEvent}
-            >
+            <Button variant="outlined" color="error" onClick={handleDeleteEvent}>
               Eliminar
             </Button>
           </Box>
