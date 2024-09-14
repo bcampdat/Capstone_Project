@@ -1,5 +1,5 @@
-// src/components/EventDrawer.js
 import React from "react";
+import PropTypes from "prop-types"; // Importar PropTypes
 import { Box, Button, Typography, TextField, Drawer } from "@mui/material";
 
 const EventDrawer = ({
@@ -76,6 +76,20 @@ const EventDrawer = ({
       </Box>
     </Drawer>
   );
+};
+
+// Definir PropTypes para validar las props
+EventDrawer.propTypes = {
+  drawerOpen: PropTypes.bool.isRequired,
+  handleCloseDrawer: PropTypes.func.isRequired,
+  formData: PropTypes.shape({
+    title: PropTypes.string.isRequired,
+    content: PropTypes.string,
+    start: PropTypes.string.isRequired,
+    end: PropTypes.string.isRequired,
+  }).isRequired,
+  handleInputChange: PropTypes.func.isRequired,
+  handleSubmit: PropTypes.func.isRequired,
 };
 
 export default EventDrawer;

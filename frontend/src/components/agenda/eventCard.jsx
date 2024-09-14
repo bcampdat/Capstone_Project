@@ -1,5 +1,5 @@
-// src/components/EventCard.js
 import React from "react";
+import PropTypes from "prop-types"; // Importar PropTypes
 import { TfiAgenda } from "react-icons/tfi";
 
 const EventCard = ({ event }) => {
@@ -11,6 +11,13 @@ const EventCard = ({ event }) => {
       </div>
     </div>
   );
+};
+
+// Definir PropTypes para validar las props
+EventCard.propTypes = {
+  event: PropTypes.shape({
+    title: PropTypes.string.isRequired, // 'title' es obligatorio y debe ser una cadena de texto
+  }).isRequired,
 };
 
 export default EventCard;

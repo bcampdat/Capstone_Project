@@ -1,5 +1,5 @@
-// src/modals/EventModal.js
 import React from "react";
+import PropTypes from "prop-types"; 
 import { Box, Button, Typography, TextField, Modal } from "@mui/material";
 
 const EventModal = ({
@@ -87,6 +87,21 @@ const EventModal = ({
       </Box>
     </Modal>
   );
+};
+
+// Definir PropTypes para validar las props
+EventModal.propTypes = {
+  modalOpen: PropTypes.bool.isRequired,
+  handleCloseModal: PropTypes.func.isRequired,
+  formData: PropTypes.shape({
+    title: PropTypes.string.isRequired,
+    content: PropTypes.string,
+    start: PropTypes.string.isRequired,
+    end: PropTypes.string.isRequired,
+  }).isRequired,
+  handleInputChange: PropTypes.func.isRequired,
+  handleUpdateEvent: PropTypes.func.isRequired,
+  handleDeleteEvent: PropTypes.func.isRequired,
 };
 
 export default EventModal;
