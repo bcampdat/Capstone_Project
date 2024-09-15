@@ -59,8 +59,10 @@ const EventModal = ({
             name="title"
             value={formData.title}
             onChange={handleInputChange}
-            InputLabelProps={{ sx: { color: "text.primary" } }}
-            InputProps={{ sx: { color: "text.primary" } }}
+            sx={{ // Estilos para el texto y el label
+              input: { color: 'text.primary' }, // Color del texto de entrada
+              label: { color: 'text.primary' }, // Color del label
+            }}
           />
           <TextField
             fullWidth
@@ -71,8 +73,10 @@ const EventModal = ({
             onChange={handleInputChange}
             multiline
             rows={4}
-            InputLabelProps={{ sx: { color: "text.primary" } }}
-            InputProps={{ sx: { color: "text.primary" } }}
+            sx={{
+              input: { color: 'text.primary' },
+              label: { color: 'text.primary' },
+            }}
           />
           <TextField
             fullWidth
@@ -82,8 +86,10 @@ const EventModal = ({
             type="datetime-local"
             value={formData.start}
             onChange={handleInputChange}
-            InputLabelProps={{ sx: { color: "text.primary" } }}
-            InputProps={{ sx: { color: "text.primary" } }}
+            sx={{
+              input: { color: 'text.primary' },
+              label: { color: 'text.primary' },
+            }}
           />
           <TextField
             fullWidth
@@ -93,8 +99,10 @@ const EventModal = ({
             type="datetime-local"
             value={formData.end}
             onChange={handleInputChange}
-            InputLabelProps={{ sx: { color: "text.primary" } }}
-            InputProps={{ sx: { color: "text.primary" } }}
+            sx={{
+              input: { color: 'text.primary' },
+              label: { color: 'text.primary' },
+            }}
           />
           <Box mt={2}>
             <Button
