@@ -1,10 +1,10 @@
-// src/pages/MyCalendar.js
 import React, { useState, useEffect, useContext } from "react";
 import moment from "moment";
 import "moment/locale/es";
 import { localizerMoment, messages } from "./locale";
 import { Calendar } from "react-big-calendar";
 import "react-big-calendar/lib/sass/styles.scss";
+import 'react-big-calendar/lib/css/react-big-calendar.css'; 
 import axios from "axios";
 import { UserContext } from "../auth/userContext";
 import EventModal from "../modals/event-Modal";
@@ -124,11 +124,11 @@ export default function MyCalendar() {
   };
 
   return (
-    <div className="text-2xl text-center mt-10">
+    <div className="text-2xl text-center m-5 px-2">
       <Calendar
         localizer={localizerMoment}
         events={events}
-        style={{ height: "95vh", background: "black" }}
+        style={{ height: "95vh", background: "smoke" }}
         defaultView="month"
         messages={messages} 
         components={{
@@ -137,6 +137,8 @@ export default function MyCalendar() {
         selectable
         onSelectSlot={handleSelectSlot}
         onSelectEvent={handleEventClick}
+        min={new Date(1970, 1, 1, 6)}  // Comienza a las 6:00 AM
+        max={new Date(1970, 1, 1, 21)} // Termina a las 9:00 PM
       />
       <EventDrawer
         drawerOpen={drawerOpen}

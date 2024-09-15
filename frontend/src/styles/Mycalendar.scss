@@ -1,50 +1,98 @@
+/* ---- Estilo para el calendario ---- */
+
+/* Estilo para la cabecera del calendario */
 .rbc-header {
-    color: white;
-    font-size: 14px !important;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    height: 36px !important;
-    background:#01454f;
-  }
-  
-  .rbc-allday-cell {
-    display: none;
-  }
-  
-  .rbc-time-header-cell .rbc-today {
-    background-color: #aca221 !important;
-  }
-  
-  .rbc-time-slot {
-    color: #74a4c3;
-    z-index: 1;
-  }
-  
-  .rbc-time-slot:not(.rbc-today .rbc-time-slot) {
-    background-color: #eff4f7;
-  }
-  
-  /*Event Styles*/
-  .rbc-event,
-  .rbc-background-event {
-    z-index: 2;
-    padding: 0px !important;
-    border: none !important;
-  }
-  
-  .rbc-event-label {
-    display: none !important;
-  }
-  
-  .rbc-events-container {
-    width: 100% !important;
-  }
-  
-  /*Timeslots Customization*/
-  .rbc-day-slot .rbc-time-slot:after {
-    content: "";
-    width: 100%;
-    border-top: 1px solid #460337;
-    display: block;
-  }
+  color: white;
+  font-size: 14px !important;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 36px !important;
+  background: #01454f;
+}
+
+/* Estilo específico para el encabezado del día actual */
+.rbc-today {
+  background-color: transparent !important;
+}
+
+.rbc-header.rbc-today {
+  background-color: #aca221 !important;
+}
+
+.rcb-now .rcb-button-link {
+  background-color: #aca221 !important;
+  color: darkcyan !important;
+  border-radius: 2px;
+  padding-left: 2px;
+  padding-right: 2px;
+  margin: 5px;
+  font-size: 19px;
+}
+
+/* Ocultar la celda de "Todo el día" */
+.rbc-allday-cell {
+  display: none;
+}
+
+/* Estilos para los botones de navegación */
+span.rbc-btn-group button {
+  color: white !important;
+}
+
+span.rbc-btn-group .rbc-active {
+  background-color: #aca221 !important;
+}
+
+/* Estilos para la hora actual en el calendario de día o semana */
+.rbc-time-slot.rbc-now {
+  background-color: #aca221 !important;
+}
+
+.rbc-time-slot.rbc-now.rbc-background-event {
+  background-color: #aca221 !important;
+  color: white !important;
+}
+
+/* Estilo para el "Hoy" en la cabecera de las horas */
+.rbc-time-header-cell.rbc-today {
+  background-color: #aca221 !important;
+  color: white !important;
+}
+
+/* Personalización de las franjas horarias */
+.rbc-time-slot {
+  color: #74a4c3;
+  border-color: gray !important;
+}
+
+/* Ajuste para las franjas horarias */
+.rbc-day-slot .rbc-time-slot:after {
+  content: "";
+  width: 100%;
+  display: block;
+}
+
+/* Personalizar las líneas divisorias de las franjas horarias */
+.rbc-timeslot-group {
+  display: flex;
+  justify-content: center;
+  background-color: transparent !important;
+}
+
+/* Estilos para los eventos */
+.rbc-event,
+.rbc-background-event {
+  z-index: 2;
+  padding: 0px !important;
+  border: none !important;
+  background-color: #7ec2dd !important;
+  width: 100% !important;
+}
+
+/* Ocultar la etiqueta de los eventos */
+.rbc-event-label {
+  display: none !important;
+}
+
+
