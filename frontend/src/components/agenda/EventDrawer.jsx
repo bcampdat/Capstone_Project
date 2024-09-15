@@ -58,8 +58,10 @@ const EventDrawer = ({
               fullWidth
               margin="normal"
               required
-              InputLabelProps={{ sx: { color: "text.primary" } }}
-              InputProps={{ sx: { color: "text.primary" } }}
+              sx={{
+                input: { color: 'text.primary' },  // Color del texto de entrada
+                label: { color: 'text.primary' },  // Color del label
+              }}
             />
             <TextField
               label="Contenido"
@@ -71,8 +73,10 @@ const EventDrawer = ({
               fullWidth
               margin="normal"
               required
-              InputLabelProps={{ sx: { color: "text.primary" } }}
-              InputProps={{ sx: { color: "text.primary" } }}
+              sx={{
+                input: { color: 'text.primary' },  // Color del texto de entrada
+                label: { color: 'text.primary' },  // Color del label
+              }}
             />
             <TextField
               label="Inicio"
@@ -83,8 +87,10 @@ const EventDrawer = ({
               fullWidth
               margin="normal"
               required
-              InputLabelProps={{ sx: { color: "text.primary" } }}
-              InputProps={{ sx: { color: "text.primary" } }}
+              sx={{
+                input: { color: 'text.primary' },  // Color del texto de entrada
+                label: { color: 'text.primary' },  // Color del label
+              }}
             />
             <TextField
               label="Fin"
@@ -95,8 +101,10 @@ const EventDrawer = ({
               fullWidth
               margin="normal"
               required
-              InputLabelProps={{ sx: { color: "text.primary" } }}
-              InputProps={{ sx: { color: "text.primary" } }}
+              sx={{
+                input: { color: 'text.primary' },  // Color del texto de entrada
+                label: { color: 'text.primary' },  // Color del label
+              }}
             />
             <Button type="submit" variant="contained" color="primary" fullWidth>
               Crear Evento
