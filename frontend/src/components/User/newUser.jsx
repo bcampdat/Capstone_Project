@@ -1,15 +1,15 @@
 import React, { useState, useContext } from "react";
 import axios from "axios";
 import { FaUserAstronaut, FaUserNinja, FaUserSecret } from "react-icons/fa";
-import { UserContext } from "../auth/userContext"; // Importar el contexto de usuario
-import { useNavigate } from "react-router-dom"; // Para redirigir al usuario
+import { UserContext } from "../auth/userContext"; 
+import { useNavigate } from "react-router-dom"; 
 
 const NewUser = () => {
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [fotoUsers, setFotoUsers] = useState("astronauta"); // Astronauta por defecto
-  const { loginUser } = useContext(UserContext); // Obtener la función para loguear al usuario desde el contexto
+  const { loginUser } = useContext(UserContext); 
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
   const navigate = useNavigate(); // Para redirigir al usuario

@@ -34,7 +34,6 @@ const Login = () => {
   // Función para mostrar el ícono correcto o el astronauta por defecto
   const renderIcon = () => {
     if (user && user.foto_users) {
-      // Mostrar el ícono basado en el valor de foto_users
       switch (user.foto_users) {
         case "astronauta":
           return <FaUserAstronaut className="w-24 h-24 text-gray-700" />;

@@ -3,7 +3,7 @@ import mapboxgl from 'mapbox-gl';
 import 'mapbox-gl/dist/mapbox-gl.css';
 import '@mapbox/mapbox-gl-geocoder/dist/mapbox-gl-geocoder.css';
 import MapboxGeocoder from '@mapbox/mapbox-gl-geocoder';
-import { UserContext } from './auth/userContext'; // Asegúrate de que la ruta sea correcta
+import { UserContext } from './auth/userContext'; 
 
 mapboxgl.accessToken = 'pk.eyJ1Ijoiamxwcm9mZXNvciIsImEiOiJjbHNhdHB3ZDEwNzNsMmpvNWxhMTRpNDNzIn0.b5FJ5Uz1mF4oCXB2YbTCJQ';
 
@@ -44,7 +44,7 @@ const MyMap = () => {
       });
       mapInstance.addControl(geocoder, 'top-left');
 
-      const userName = user ? user.user_name : 'Usuario'; // Asegúrate de tener un valor por defecto
+      const userName = user ? user.user_name : 'Usuario'; 
       const newMarker = new mapboxgl.Marker({ color: 'black' })
         .setLngLat([longitud, latitud])
         .setPopup(new mapboxgl.Popup({ offset: 25 }).setHTML(`<h3>${userName}</h3><p>Estoy aquí</p>`))
@@ -62,7 +62,7 @@ const MyMap = () => {
         map.flyTo({ center: [longitud, latitud] });
       }
     }
-  }, [marker, map, user]); // Asegúrate de que `user` esté en las dependencias
+  }, [marker, map, user]); 
 
   return (
     <div>

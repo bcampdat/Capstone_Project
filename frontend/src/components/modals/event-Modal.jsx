@@ -106,7 +106,7 @@ const EventModal = ({
           />
           <Box mt={2}>
             <Button
-              variant="contained"
+              variant="outlined" 
               color="primary"
               onClick={() =>
                 handleUpdateEvent({
@@ -120,7 +120,7 @@ const EventModal = ({
             >
               Actualizar
             </Button>
-            <Button variant="outlined" color="error" onClick={handleDeleteEvent}>
+            <Button variant="outlined" color="secondary"  onClick={handleDeleteEvent}>
               Eliminar
             </Button>
           </Box>

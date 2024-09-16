@@ -40,8 +40,8 @@ const EventDrawer = ({
         PaperProps={{
           sx: {
             width: 300,
-            backgroundColor: "background.paper", // Esto respeta el tema oscuro
-            color: "text.primary", // Esto también respeta el tema para el texto
+            backgroundColor: "background.paper", 
+            color: "text.primary", 
           },
         }}
       >
