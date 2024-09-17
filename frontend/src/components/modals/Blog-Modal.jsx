@@ -42,10 +42,10 @@ const BlogModal = ({ modalIsOpen, handleModalClose, post, handleSuccessfulNewBlo
       isOpen={modalIsOpen}
       onRequestClose={handleModalClose}
       shouldCloseOnOverlayClick={true}
-      style={customStyles} // Aplica los estilos personalizados
-      ariaHideApp={false} // Si es necesario, evita ocultar la app
+      style={customStyles} 
+      ariaHideApp={false} 
     >
-      <div style={{ position: "relative" }}>
+      <div className="blog-modal "  style={{ position: "relative" }}>
         <h2>{isEdit ? 'Editar Post' : 'Nuevo Post'}</h2>
         {modalIsOpen && (
           <BlogForm

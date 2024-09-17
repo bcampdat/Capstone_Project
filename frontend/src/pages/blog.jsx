@@ -120,10 +120,10 @@ const Blog = () => {
   };
 
   const blogRecords = blogItems.map((blogItem, i) => (
-    <div className="admin-blog-wrapper" key={i}>
+    <div className="admin-blog-wrapper mx-auto" key={i}>
       <BlogItem blogItem={blogItem} />
       {user && blogItem.usuario_id === user.id_users && ( // Verificar que el usuario sea el propietario
-        <div className="admin-blog-icons">
+        <div className="admin-blog-icons ">
           <a className="edit" onClick={() => handleEditBlogClick(blogItem)}>
             <CiCirclePlus size={39} />
           </a>
@@ -136,7 +136,7 @@ const Blog = () => {
   ));
 
   return (
-    <div className="blog-container">
+    <div className="blog-container mt-10">
       <BlogModal
         handleSuccessfulNewBlogSubmission={handleSuccessfulNewBlogSubmission}
         handleModalClose={handleModalClose}
@@ -145,7 +145,7 @@ const Blog = () => {
       />
 
       {user && (
-        <div className="new-blog-link mb-5">
+        <div className="new-blog-link">
           <a onClick={handleNewBlogClick}>
             <CiCirclePlus size={80} />
           </a>
@@ -168,7 +168,7 @@ const Blog = () => {
           style={{
             position: "fixed",
             bottom: "40px",
-            right: "20px",
+            right: "30px",
             height: "40px",
             width: "40px",
             backgroundColor: "rgba(255, 193, 7, 0.8)",

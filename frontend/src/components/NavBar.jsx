@@ -27,9 +27,9 @@ const NavBar = () => {
   };
 
   return (
-    <nav className="nav-wrapper text-3xl dark:bg-gray-400 dark:text-white w-full mt-10">
+    <nav className="nav-wrapper px-10  text-3xl dark:bg-gray-400 dark:text-white w-full mt-10">
       <div className="navbar flex items-center justify-between">
-        <h1 className="logo dark:text-white text-3xl ml-5">LOGO</h1>
+        <h1 className="logo dark:text-white text-3xl ml-5 mr-5">LOGO</h1>
         <div className="md:hidden">
           <button
             onClick={() => setIsLoginOpen(!isLoginOpen)}

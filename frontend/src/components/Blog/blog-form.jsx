@@ -99,8 +99,8 @@ const BlogForm = ({ post, isEdit, handleSuccessfulNewBlogSubmission }) => {
       onSubmit={handleSubmit}
       className="max-w-1xl border border-amber-300 mx-auto bg-transparent p-6 shadow-md"
     >
-      <div className="mb-4">
-        <label className="block text-sm font-medium dark:text-white">
+      <div className="mb-4 ">
+        <label className="block fluid  text-sm font-medium dark:text-white">
           Título del Blog
         </label>
         <input
@@ -142,8 +142,8 @@ const BlogForm = ({ post, isEdit, handleSuccessfulNewBlogSubmission }) => {
                 file={featuredImage}
                 alt="Imagen destacada"
                 width="200px"
-                height="300px"
-                className="mt-2 rounded-md shadow-md border border-amber-300 dark:text-white"
+                height="200px"
+                className="mt-2 p-2 rounded-md shadow-md border border-amber-300 dark:text-white"
               />
             )}
           </Dropzone>

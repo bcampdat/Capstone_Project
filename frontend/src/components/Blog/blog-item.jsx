@@ -9,10 +9,10 @@ const BlogItem = ({ blogItem }) => {
   const { id, content, title, featured_image } = blogItem;
 
   return (
-    <article className="blog-item">
+    <article className="blog-item p-5  mx-auto">
       <header>
         <Link to={`/p/${id}`}>
-          <h1>{title}</h1>
+          <h1 className="mb-3">{title}</h1>
         </Link>
       </header>
 
@@ -20,7 +20,7 @@ const BlogItem = ({ blogItem }) => {
         <BlogFeaturedImage img={featured_image} altText={title} />
       )}
 
-      <div className="blog-content">
+      <div className="blog-content p-5 mx-auto">
         <TextTruncate
           line={4}
           element="span"

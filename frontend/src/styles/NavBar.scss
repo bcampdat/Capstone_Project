@@ -1,7 +1,5 @@
-// azul #389bff
 
-// Variables para reutilizar colores
-$color-azul-cielo: #87ceeb; // Color azul cielo
+$color-azul-cielo: #87ceeb; 
 
 .navbar {
   ul {
@@ -38,7 +36,7 @@ $color-azul-cielo: #87ceeb; // Color azul cielo
     transition: transform 0.3s ease, color 0.3s ease; // Transición para el tamaño y color del contenedor
   
     svg {
-      color: #f8f9fa; // Color azul cielo por defecto
+      color: $color-azul-cielo; // Color azul cielo por defecto
       transition: color 0.3s ease; // Transición suave para el color
     }
   
@@ -46,14 +44,14 @@ $color-azul-cielo: #87ceeb; // Color azul cielo
       transform: scale(1.2); // Ampliar el icono al hacer hover
   
       svg {
-        color: #87ceeb; // Cambiar el color del icono a blanco al hacer hover
+        color: $color-azul-cielo; 
       }
     }
   }
   
 
   .user-name {
-    color: #87ceeb; // Color azul cielo para el nombre del usuario
+    color: $color-azul-cielo; // Color azul cielo para el nombre del usuario
     text-transform: uppercase;
   }
   .logout {
@@ -61,7 +59,7 @@ $color-azul-cielo: #87ceeb; // Color azul cielo
 
     &:hover {
       transform: scale(1.2); // Aumenta el tamaño del icono al hacer hover
-      color: #87ceeb; // Cambia el color del icono a azul cielo
+      color: $color-azul-cielo; // Cambia el color del icono a azul cielo
     }
 
     svg {
