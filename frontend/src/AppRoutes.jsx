@@ -4,6 +4,7 @@ import { UserContext } from "./components/auth/userContext"; // Importar el cont
 
 import NavBar from "./components/NavBar";
 import Home from "./pages/home";
+import About from "./pages/about";
 import Calendario from "./pages/calendario";
 import Mapas from "./pages/mapas";
 import Blog from "./pages/blog";
@@ -22,6 +23,7 @@ const AppRoutes = () => {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/home" element={<Home />} />
+          <Route path="/about" element={<About />} />
           <Route
             path="/calendario"
             element={
