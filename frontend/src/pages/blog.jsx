@@ -3,7 +3,7 @@ import axios from "axios";
 import { IoIosTrash } from "react-icons/io";
 import { ImSpinner } from "react-icons/im";
 import { CiCirclePlus } from "react-icons/ci";
-import { FaArrowUp } from "react-icons/fa"; // Importamos el ícono de flecha para subir
+import { FaArrowUp } from "react-icons/fa";
 import BlogModal from "../components/modals/Blog-Modal";
 import BlogItem from "../components/Blog/blog-item";
 
@@ -16,9 +16,7 @@ const Blog = () => {
   const [currentPage, setCurrentPage] = useState(0);
   const [isLoading, setIsLoading] = useState(true);
   const [blogModalIsOpen, setBlogModalIsOpen] = useState(false);
-  const [selectedPost, setSelectedPost] = useState(null); // Para manejar la edición de posts
-
-  // Estado para mostrar u ocultar el botón de "volver arriba"
+  const [selectedPost, setSelectedPost] = useState(null);
   const [showScroll, setShowScroll] = useState(false);
 
   const getBlogItems = useCallback(() => {
@@ -64,7 +62,7 @@ const Blog = () => {
   const handleDeleteClick = (post) => {
     axios
       .delete(`http://localhost:3001/api/posts/delete/${post.id}`, {
-        data: { usuario_id: user.id_users }, // Enviamos usuario_id para verificación
+        data: { usuario_id: user.id_users },
         withCredentials: true,
       })
       .then(() => {
@@ -78,18 +76,18 @@ const Blog = () => {
   };
 
   const handleNewBlogClick = () => {
-    setSelectedPost(null); // No hay post seleccionado para una nueva creación
-    setBlogModalIsOpen(true); // Abre el modal para un nuevo post
+    setSelectedPost(null);
+    setBlogModalIsOpen(true);
   };
 
   const handleEditBlogClick = (post) => {
-    setSelectedPost(post); // Pasamos el post seleccionado para edición
-    setBlogModalIsOpen(true); // Abre el modal para edición
+    setSelectedPost(post);
+    setBlogModalIsOpen(true);
   };
 
   const handleModalClose = () => {
     setBlogModalIsOpen(false);
-    setSelectedPost(null); // Resetea el post seleccionado al cerrar el modal
+    setSelectedPost(null);
   };
 
   const handleSuccessfulNewBlogSubmission = (post) => {
@@ -97,16 +95,16 @@ const Blog = () => {
     setBlogItems((prevItems) => [post, ...prevItems]);
   };
 
-  // Función para detectar el scroll y mostrar el botón si se ha scrolleado hacia abajo
   const checkScrollTop = () => {
-    if (!showScroll && window.pageYOffset > 300) {
+    const scrollableHeight =
+      document.documentElement.scrollHeight - window.innerHeight;
+    if (!showScroll && window.scrollY >= scrollableHeight - 100) {
       setShowScroll(true);
-    } else if (showScroll && window.pageYOffset <= 300) {
+    } else if (showScroll && window.scrollY < scrollableHeight - 100) {
       setShowScroll(false);
     }
   };
 
-  // Añadir el event listener al hacer scroll
   useEffect(() => {
     window.addEventListener("scroll", checkScrollTop);
     return () => {
@@ -114,22 +112,29 @@ const Blog = () => {
     };
   }, [showScroll]);
 
-  // Función para volver al inicio de la página
   const scrollToTop = () => {
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
   const blogRecords = blogItems.map((blogItem, i) => (
-    <div className="admin-blog-wrapper mx-auto" key={i}>
+    <div className="admin-blog-wrapper mx-auto p-4" key={i}>
       <BlogItem blogItem={blogItem} />
-      {user && blogItem.usuario_id === user.id_users && ( // Verificar que el usuario sea el propietario
-        <div className="admin-blog-icons ">
-          <a className="edit" onClick={() => handleEditBlogClick(blogItem)}>
-            <CiCirclePlus size={39} />
-          </a>
-          <a className="delete" onClick={() => handleDeleteClick(blogItem)}>
-            <IoIosTrash size={39} />
-          </a>
+      {user && blogItem.usuario_id === user.id_users && (
+        <div className="admin-blog-icons flex justify-center space-x-4 mt-4">
+          <button
+            className="edit"
+            onClick={() => handleEditBlogClick(blogItem)}
+            aria-label="Editar post"
+          >
+            <CiCirclePlus size={42} />
+          </button>
+          <button
+            className="delete"
+            onClick={() => handleDeleteClick(blogItem)}
+            aria-label="Eliminar post"
+          >
+            <IoIosTrash size={42} />
+          </button>
         </div>
       )}
     </div>
@@ -141,41 +146,35 @@ const Blog = () => {
         handleSuccessfulNewBlogSubmission={handleSuccessfulNewBlogSubmission}
         handleModalClose={handleModalClose}
         modalIsOpen={blogModalIsOpen}
-        post={selectedPost} // Pasamos el post seleccionado o null
+        post={selectedPost}
       />
 
       {user && (
-        <div className="new-blog-link">
-          <a onClick={handleNewBlogClick}>
+        <div className="new-blog-link fixed bottom-10 right-10">
+          <button onClick={handleNewBlogClick} aria-label="Añadir nuevo post">
             <CiCirclePlus size={80} />
-          </a>
+          </button>
         </div>
       )}
 
-      <div className="content-container">{blogRecords}</div>
+      <div className="content-container grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
+        {blogRecords}
+      </div>
 
       {isLoading && (
-        <div className="content-loader">
-          <ImSpinner size={40} />
+        <div className="content-loader flex justify-center items-center mt-10">
+          <ImSpinner size={40} className="animate-spin" />
         </div>
       )}
 
-      {/* Botón de volver arriba */}
       {showScroll && (
         <FaArrowUp
-          className="scrollTop"
+          className="scrollTop fixed bottom-10 left-10 cursor-pointer p-2"
           onClick={scrollToTop}
+          size={40}
           style={{
-            position: "fixed",
-            bottom: "40px",
-            right: "30px",
-            height: "40px",
-            width: "40px",
             backgroundColor: "rgba(255, 193, 7, 0.8)",
             borderRadius: "50%",
-            padding: "10px",
-            cursor: "pointer",
-            transition: "opacity 0.5s",
           }}
         />
       )}

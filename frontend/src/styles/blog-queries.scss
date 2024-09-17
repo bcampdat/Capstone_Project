@@ -1,0 +1,69 @@
+/* Estilos para pantallas grandes */
+@media (min-width: 1024px) {
+    .blog-modal {
+      max-width: 750px; /* Ancho máximo en pantallas grandes */
+      width: 100%;
+    }
+  
+    .blog-modal h2 {
+      font-size: 1.8em; /* Ajuste del tamaño del título */
+    }
+    
+    .blog-modal button {
+      font-size: 1em;
+      padding: 8px 16px;
+    }
+  }
+  
+  /* Estilos para pantallas medianas */
+  @media (max-width: 1024px) {
+    .blog-modal {
+      max-width: 600px; /* Ancho máximo para pantallas medianas */
+      width: 90%;
+    }
+  
+    .blog-modal h2 {
+      font-size: 1.6em; /* Ajuste del tamaño del título */
+    }
+  
+    .blog-modal button {
+      font-size: 0.9em;
+      padding: 7px 14px;
+    }
+  }
+  
+  /* Estilos para pantallas pequeñas (móviles) */
+  @media (max-width: 768px) {
+    .blog-modal {
+      max-width: 100%; /* Ancho completo en móviles */
+      width: 100%; 
+    }
+  
+    .blog-modal h2 {
+      font-size: 1.4em;
+    }
+  
+    .blog-modal button {
+      font-size: 0.8em;
+      padding: 6px 12px;
+    }
+  }
+  
+  /* Estilos para pantallas muy pequeñas (móviles pequeños) */
+  @media (max-width: 480px) {
+    .blog-modal {
+      max-width: 100%;
+      width: 100%; 
+      padding: 10px;
+    }
+  
+    .blog-modal h2 {
+      font-size: 1.2em;
+    }
+  
+    .blog-modal button {
+      font-size: 0.7em;
+      padding: 5px 10px;
+    }
+  }
+  

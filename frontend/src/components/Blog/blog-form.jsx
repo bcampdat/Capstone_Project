@@ -22,14 +22,14 @@ const BlogForm = ({ post, isEdit, handleSuccessfulNewBlogSubmission }) => {
                 name: post.featured_image,
                 preview: `http://localhost:3001${post.featured_image}`,
               },
-            } // Asegura que tienes la URL completa
+            }
           : null
       );
     }
   }, [isEdit, post]);
 
   const handleImageChange = (files) => {
-    setFeaturedImage(files[0]); // Guardamos  el archivo en el estado
+    setFeaturedImage(files[0]); // Guardamos el archivo en el estado
   };
 
   const uploadImage = async (file) => {
@@ -60,10 +60,8 @@ const BlogForm = ({ post, isEdit, handleSuccessfulNewBlogSubmission }) => {
       formData.append("usuario_id", user.id_users); 
 
       if (featuredImage && featuredImage.file instanceof File) {
-        // Si es un archivo nuevo, lo subimos
         formData.append("featured_image", featuredImage.file);
       } else if (featuredImage && featuredImage.file.name) {
-        // Si es la imagen existente, solo pasamos el nombre
         formData.append("featured_image", featuredImage.file.name);
       }
 
@@ -97,10 +95,10 @@ const BlogForm = ({ post, isEdit, handleSuccessfulNewBlogSubmission }) => {
   return (
     <form
       onSubmit={handleSubmit}
-      className="max-w-1xl border border-amber-300 mx-auto bg-transparent p-6 shadow-md"
+      className="max-w-4xl border border-amber-300 mx-auto bg-transparent p-6 shadow-md"
     >
-      <div className="mb-4 ">
-        <label className="block fluid  text-sm font-medium dark:text-white">
+      <div className="mb-4">
+        <label className="block text-sm font-medium dark:text-white">
           Título del Blog
         </label>
         <input
@@ -117,7 +115,7 @@ const BlogForm = ({ post, isEdit, handleSuccessfulNewBlogSubmission }) => {
         <label className="text-sm font-medium dark:text-white">
           Contenido
         </label>
-        <div className="mt-1 block w-full border border-amber-300 p-2 rounded-lg shadow-lg ">
+        <div className="mt-1 block w-full border border-amber-300 p-2 rounded-lg shadow-lg">
           <RichTextEditor
             value={content}
             onChange={setContent}
@@ -135,7 +133,7 @@ const BlogForm = ({ post, isEdit, handleSuccessfulNewBlogSubmission }) => {
             onChange={handleImageChange}
             maxFiles={1}
             accept="image/*"
-            className="border dark:text-white border-amber-300 rounded-md p-2 shadow-md "
+            className="border dark:text-white border-amber-300 rounded-md p-2 shadow-md"
           >
             {featuredImage && (
               <FileMosaic
@@ -152,7 +150,7 @@ const BlogForm = ({ post, isEdit, handleSuccessfulNewBlogSubmission }) => {
 
       <button
         type="submit"
-        className="bg-neutral-700 hover:bg-sky-300 shadow-lg font-bold py-2 px-4 rounded-md transition duration-300 ease-in-out"
+        className="bg-neutral-700 hover:bg-sky-300 shadow-lg font-bold py-2 px-4 rounded-md w-full sm:w-auto transition duration-300 ease-in-out"
       >
         {isEdit ? "Actualizar Post" : "Crear Post"}
       </button>

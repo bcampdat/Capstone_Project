@@ -11,8 +11,8 @@ const BlogFeaturedImage = ({ img, altText = "Blog featured image" }) => {
     : img;
 
   return (
-    <div className="featured-image-wrapper mx-auto">
-      <img src={imgUrl} alt={altText} className="featured-image mx-auto" />
+    <div className="featured-image-wrapper mx-auto max-w-4xl">
+      <img src={imgUrl} alt={altText} className="featured-image w-full h-auto mx-auto" />
     </div>
   );
 };

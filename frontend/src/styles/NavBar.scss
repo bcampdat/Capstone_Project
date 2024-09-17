@@ -1,5 +1,4 @@
-
-$color-azul-cielo: #87ceeb; 
+$color-azul-cielo: #87ceeb;
 
 .navbar {
   ul {
@@ -34,21 +33,20 @@ $color-azul-cielo: #87ceeb;
 
   .user-icon {
     transition: transform 0.3s ease, color 0.3s ease; // Transición para el tamaño y color del contenedor
-  
+
     svg {
       color: $color-azul-cielo; // Color azul cielo por defecto
       transition: color 0.3s ease; // Transición suave para el color
     }
-  
+
     &:hover {
       transform: scale(1.2); // Ampliar el icono al hacer hover
-  
+
       svg {
-        color: $color-azul-cielo; 
+        color: $color-azul-cielo;
       }
     }
   }
-  
 
   .user-name {
     color: $color-azul-cielo; // Color azul cielo para el nombre del usuario

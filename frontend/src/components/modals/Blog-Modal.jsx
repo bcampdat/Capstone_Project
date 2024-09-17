@@ -15,25 +15,26 @@ const BlogModal = ({ modalIsOpen, handleModalClose, post, handleSuccessfulNewBlo
       bottom: "auto",
       marginRight: "-50%",
       transform: "translate(-50%, -50%)",
-      width: "750px",
+      width: "90%", 
+      maxWidth: "750px", 
       maxHeight: "90vh",
       overflowY: "auto",
-      zIndex: 1000, // Aseguramos que el modal esté por encima de otros elementos
-      backgroundColor: "transparent", // Fondo blanco para asegurar visibilidad
-      padding: "20px", // Añadir padding para evitar que los elementos toquen los bordes
-      boxShadow: "0 4px 8px rgba(0, 0, 0, 0.25)" // Añadir una sombra para mejor visibilidad
+      zIndex: 1000,
+      backgroundColor: "transparent", 
+      padding: "20px", 
+      boxShadow: "0 4px 8px rgba(0, 0, 0, 0.25)" 
     },
     overlay: {
       backgroundColor: "rgba(1, 1, 1, 0.75)",
-      zIndex: 999, // Asegurar que el overlay esté por detrás del modal
+      zIndex: 999, 
     },
   };
 
   useEffect(() => {
     if (post) {
-      setIsEdit(true); // Si hay un post, es edición
+      setIsEdit(true); 
     } else {
-      setIsEdit(false); // Si no, es un nuevo post
+      setIsEdit(false); 
     }
   }, [post]);
 
@@ -62,12 +63,12 @@ const BlogModal = ({ modalIsOpen, handleModalClose, post, handleSuccessfulNewBlo
   );
 };
 
-// Validación de los props
+
 BlogModal.propTypes = {
-  modalIsOpen: PropTypes.bool.isRequired, // Requerido y debe ser booleano
-  handleModalClose: PropTypes.func.isRequired, // Función requerida
-  post: PropTypes.object, // Puede ser un objeto o null
-  handleSuccessfulNewBlogSubmission: PropTypes.func.isRequired // Función requerida
+  modalIsOpen: PropTypes.bool.isRequired, 
+  handleModalClose: PropTypes.func.isRequired, 
+  post: PropTypes.object, 
+  handleSuccessfulNewBlogSubmission: PropTypes.func.isRequired 
 };
 
 // Estilos del botón de cerrar

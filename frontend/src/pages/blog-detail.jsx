@@ -1,12 +1,10 @@
 import React, { useState, useEffect, useContext } from "react";
 import axios from "axios";
 import ReactHtmlParser from "react-html-parser";
-
 import BlogForm from "../components/Blog/blog-form";
 import BlogFeaturedImage from "../components/Blog/blog-featured-image";
 import { UserContext } from "../components/auth/userContext";
 import { useParams, useNavigate } from "react-router-dom";
-
 import { FaReply } from "react-icons/fa";
 
 const BlogDetail = () => {
@@ -67,17 +65,26 @@ const BlogDetail = () => {
       );
     } else {
       return (
-        <div className="content-container mt-10 ">
-          <h1 onClick={handleEditClick}>{title}</h1>
-          <BlogFeaturedImage img={featured_image} />
-          <div className="content m-20 my-auto text-justify p-7 font-medium dark:text-white">{ReactHtmlParser(content) }</div>
+        <div className="content-container text-center mt-10 max-w-4xl mx-auto">
+          <h1
+            onClick={handleEditClick}
+            className="text-3xl md:text-4xl font-bold mb-6 cursor-pointer dark:text-white"
+          >
+            {title}
+          </h1>
+          <div className="featured-image mb-6">
+            <BlogFeaturedImage img={featured_image} />
+          </div>
+          <div className="content mr-0 md:mr-20 my-auto text-justify p-7 text-lg font-medium dark:text-white">
+            {ReactHtmlParser(content)}
+          </div>
         </div>
       );
     }
   };
 
   return (
-    <div className="blog-container">
+    <div className="blog-container p-4">
       {contentManager()}
       <button
         onClick={handleGoBack}
