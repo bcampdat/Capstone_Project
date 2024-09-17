@@ -7,7 +7,8 @@ import { LuLogOut } from "react-icons/lu";
 
 const NavBar = () => {
   const { user, logoutUser } = useContext(UserContext);
-  const [isLoginOpen, setIsLoginOpen] = useState(false);
+  const [isLoginOpen, setIsLoginOpen] = useState(false); // Estado para el modal de login
+  const [isMenuOpen, setIsMenuOpen] = useState(false);   // Nuevo estado para el menú móvil
 
   // Función para renderizar el ícono del usuario
   const renderIcon = () => {
@@ -32,7 +33,7 @@ const NavBar = () => {
         <h1 className="logo dark:text-white text-3xl ml-5 mr-5">LOGO</h1>
         <div className="md:hidden">
           <button
-            onClick={() => setIsLoginOpen(!isLoginOpen)}
+            onClick={() => setIsMenuOpen(!isMenuOpen)}  // Cambiamos el estado del menú móvil
             className="text-white focus:outline-none"
             aria-label="Toggle menu"
           >
@@ -48,9 +49,9 @@ const NavBar = () => {
                 strokeLinejoin="round"
                 strokeWidth="4"
                 d={
-                  isLoginOpen
-                    ? "M6 18L18 6M6 6l12 12"
-                    : "M4 6h16M4 12h16m-7 6h7"
+                  isMenuOpen
+                    ? "M6 18L18 6M6 6l12 12" // Ícono de cierre
+                    : "M4 6h16M4 12h16m-7 6h7" // Ícono de hamburguesa
                 }
               />
             </svg>
@@ -58,7 +59,7 @@ const NavBar = () => {
         </div>
         <ul
           className={`md:flex md:items-center md:space-x-5 ${
-            isLoginOpen ? "block" : "hidden"
+            isMenuOpen ? "block" : "hidden"  // Controlamos la visibilidad del menú móvil
           }`}
         >
           <li>
@@ -102,6 +103,7 @@ const NavBar = () => {
           )}
         </ul>
       </div>
+      {/* Modal de login */}
       <LoginModal isOpen={isLoginOpen} onRequestClose={() => setIsLoginOpen(false)} />
     </nav>
   );
