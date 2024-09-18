@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types'; 
 import BlogForm from '../Blog/blog-form';
+
 import Modal from 'react-modal';
 
 const BlogModal = ({ modalIsOpen, handleModalClose, post, handleSuccessfulNewBlogSubmission }) => {
