@@ -9,14 +9,14 @@ const theme = createTheme({
   palette: {
     mode: "dark",
     primary: {
-      main: amber[500],  // Usar amber para botones primarios
+      main: amber[500],  
     },
     secondary: {
-      main: cyan[500],   // Usar cyan para botones secundarios
+      main: cyan[500],   
     },
     background: {
-      default: "#121212", // Fondo oscuro por defecto
-      paper: "#1E1E1E",   // Fondo para Paper (como Drawer)
+      default: "#121212", 
+      paper: "#1E1E1E",   
     },
     text: {
       primary: "#ffffff", // Texto blanco

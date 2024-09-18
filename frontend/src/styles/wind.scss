@@ -1,0 +1,24 @@
+@keyframes wind-effect {
+    0% {
+      transform: rotate(0deg) translateY(0);
+    }
+    25% {
+      transform: rotate(-3deg) translateY(-2px);
+    }
+    50% {
+      transform: rotate(3deg) translateY(2px);
+    }
+    75% {
+      transform: rotate(-2deg) translateY(-1px);
+    }
+    100% {
+      transform: rotate(0deg) translateY(0);
+    }
+  }
+  
+  .logo {
+    width: 150px; 
+    animation: wind-effect 5s ease-in-out infinite;
+    transform-origin: bottom;
+  }
+  

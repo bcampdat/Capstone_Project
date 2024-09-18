@@ -138,7 +138,6 @@ export default function MyCalendar() {
         onSelectSlot={handleSelectSlot}
         onSelectEvent={handleEventClick}
         min={new Date(1970, 1, 1, 6)}  // Comienza a las 6:00 AM
-        max={new Date(1970, 1, 1, 21)} // Termina a las 9:00 PM
       />
       <EventDrawer
         drawerOpen={drawerOpen}

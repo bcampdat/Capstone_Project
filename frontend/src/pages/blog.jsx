@@ -98,9 +98,9 @@ const Blog = () => {
   const checkScrollTop = () => {
     const scrollableHeight =
       document.documentElement.scrollHeight - window.innerHeight;
-    if (!showScroll && window.scrollY >= scrollableHeight - 100) {
+    if (!showScroll && window.scrollY >= scrollableHeight - 900) {
       setShowScroll(true);
-    } else if (showScroll && window.scrollY < scrollableHeight - 100) {
+    } else if (showScroll && window.scrollY < scrollableHeight - 900) {
       setShowScroll(false);
     }
   };
