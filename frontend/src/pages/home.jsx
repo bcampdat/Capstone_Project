@@ -1,14 +1,15 @@
 import React, { useRef } from "react";
 import Lottie from "lottie-react";
 import animationData from "../assets/Animation - 1724407111224.json";
+import logo from "../assets/images/logo.png";
 
 const Home = () => {
   const animationRef = useRef(null);
 
   return (
     <div className="min-h-screen flex justify-center items-center lg:mx-48">
-      <div className="text-center space-y-4">
-        <h1 className="text-2xl font-bold">Página de inicio</h1>
+      <div className="logo dark:text-white">
+        <img src={logo} alt="logo" />
 
         <div className="flex gap-2 justify-center">
           <button

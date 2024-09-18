@@ -22,7 +22,7 @@ const LoginModal = ({ isOpen, onRequestClose }) => {
       padding: "2rem",
       borderRadius: "0.375rem",
       boxShadow: "0 4px 6px rgba(0, 0, 0, 0.1)",
-      backgroundColor: "#c7a732",
+      backgroundColor: "rgb(205, 177, 50)",
     },
     overlay: {
       backgroundColor: "rgba(1, 1, 1, 0.75)",

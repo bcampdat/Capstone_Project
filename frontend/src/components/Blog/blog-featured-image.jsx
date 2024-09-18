@@ -7,7 +7,7 @@ const BlogFeaturedImage = ({ img, altText = "Blog featured image" }) => {
   }
  
   const imgUrl = img.startsWith("/MyUploads")
-    ? `http://localhost:3001${img}` // Ajusta esta URL a la de tu servidor
+    ? `http://localhost:3001${img}` 
     : img;
 
   return (
@@ -17,10 +17,10 @@ const BlogFeaturedImage = ({ img, altText = "Blog featured image" }) => {
   );
 };
 
-// Validación de tipos con PropTypes
+
 BlogFeaturedImage.propTypes = {
-  img: PropTypes.string, // La URL de la imagen
-  altText: PropTypes.string, // Texto alternativo para la imagen
+  img: PropTypes.string, 
+  altText: PropTypes.string, 
 };
 
 export default BlogFeaturedImage;

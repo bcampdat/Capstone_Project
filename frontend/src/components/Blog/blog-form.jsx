@@ -158,11 +158,11 @@ const BlogForm = ({ post, isEdit, handleSuccessfulNewBlogSubmission }) => {
   );
 };
 
-// Validación de props con PropTypes
+
 BlogForm.propTypes = {
-  post: PropTypes.object, // 'post' es opcional pero debe ser un objeto si se proporciona
-  isEdit: PropTypes.bool.isRequired, // 'isEdit' es obligatorio y debe ser booleano
-  handleSuccessfulNewBlogSubmission: PropTypes.func.isRequired, // Función requerida
+  post: PropTypes.object,
+  isEdit: PropTypes.bool.isRequired, 
+  handleSuccessfulNewBlogSubmission: PropTypes.func.isRequired, 
 };
 
 export default BlogForm;

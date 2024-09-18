@@ -4,6 +4,7 @@ import { UserContext } from "./auth/userContext";
 import LoginModal from "./modals/login-Modal";
 import { FaUserAstronaut, FaUserNinja, FaUserSecret } from "react-icons/fa";
 import { LuLogOut } from "react-icons/lu";
+import logo from "../assets/images/logo.png";
 
 const NavBar = () => {
   const { user, logoutUser } = useContext(UserContext);
@@ -30,7 +31,7 @@ const NavBar = () => {
   return (
     <nav className="nav-wrapper px-10  text-3xl dark:bg-gray-400 dark:text-white w-full mt-10">
       <div className="navbar flex items-center justify-between">
-        <h1 className="logo dark:text-white text-3xl ml-5 mr-5">LOGO</h1>
+        <h1 className="logo dark:text-white"><img src={logo} alt="logo" width={100} /></h1>
         <div className="md:hidden">
           <button
             onClick={() => setIsMenuOpen(!isMenuOpen)}  

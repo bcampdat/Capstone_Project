@@ -1,5 +1,5 @@
 import moment from "moment";
-import "moment/locale/es"; // Asegúrate de que la localización en español esté cargada
+import "moment/locale/es"; 
 import { momentLocalizer } from "react-big-calendar";
 
 // Configurar moment en español
@@ -22,7 +22,7 @@ moment.locale("es", {
   },
 });
 
-// Crear el localizador usando moment
+
 export const localizerMoment = momentLocalizer(moment);
 
 // Mensajes traducidos para el calendario en español
