@@ -1,5 +1,3 @@
-CREATE DATABASE  IF NOT EXISTS `mycap_stone` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci */;
-USE `mycap_stone`;
 -- MySQL dump 10.13  Distrib 8.0.38, for Win64 (x86_64)
 --
 -- Host: 127.0.0.1    Database: mycap_stone
@@ -25,16 +23,16 @@ DROP TABLE IF EXISTS `eventos`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `eventos` (
-  `id_events` int(11) NOT NULL,
+  `id_events` int(11) NOT NULL AUTO_INCREMENT,
   `title` varchar(100) NOT NULL,
   `content` text NOT NULL,
   `start` datetime NOT NULL,
   `end` datetime NOT NULL,
   `usuario_id` int(11) NOT NULL,
   PRIMARY KEY (`id_events`),
-  KEY `usuario_id` (`usuario_id`),
+  KEY `eventos_ibfk_1` (`usuario_id`),
   CONSTRAINT `eventos_ibfk_1` FOREIGN KEY (`usuario_id`) REFERENCES `usuarios` (`id_users`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -43,7 +41,7 @@ CREATE TABLE `eventos` (
 
 LOCK TABLES `eventos` WRITE;
 /*!40000 ALTER TABLE `eventos` DISABLE KEYS */;
-INSERT INTO `eventos` VALUES (8,'ksdñlkñfkñfk','ñlsñdfkñfksdkñsfk','2024-09-06 22:00:00','2024-09-06 23:00:00',8),(9,'adss','asddad','2024-09-10 01:01:00','2024-09-09 23:00:00',8);
+INSERT INTO `eventos` VALUES (1,'ene','dfsfsdfs','2024-09-21 16:00:00','2024-09-21 17:00:00',1),(10,'examen','sdfsf','2024-09-15 18:00:00','2024-09-15 19:00:00',1),(13,'jflkjfsdl','lsñldfkñslkfñskñsfk','2024-10-10 03:03:00','2024-09-10 05:02:00',8),(16,'fiesta','mñsdfkñlsdkfñk','2024-09-14 20:00:00','2024-09-14 21:00:00',8),(17,'exxamelkñññk','lsdkñkfñsdkfñdk','2024-09-19 20:00:00','2024-09-19 21:00:00',8);
 /*!40000 ALTER TABLE `eventos` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -102,6 +100,14 @@ LOCK TABLES `usuarios` WRITE;
 INSERT INTO `usuarios` VALUES (1,'dev','dev@camp','$2a$12$kspV4oDvKLFUOr4OPWatGeuZUEd.NkXQpoI14Mk5KSUexsdlevxv.','','admin'),(2,'user','user@name','contra',NULL,'guest'),(3,'dev','camp@camp','$2b$12$sD2pEy/zyJxqKzk9SL.WleEXO4FATUyEWOcktgKC0nfljplJmZ3rS','','guest'),(4,'dev','camp@camp','$2b$12$vf4lgs1T/FxcX65JqimkxuoxkWu08Tkp5FUNr0403EBHJPM4lC11W','','guest'),(5,'user','user@contra.es','$2b$12$H0RnOCnPwAxl53lYxtE83utbH3xnAEaWNWN.tr0BoLVBuHnYAXZgu','','guest'),(6,'hola','hola@gmail.com','$2b$12$kbr.BHbvSxJel9dC2TM6hONnAqBTtKMjTUckDa/YyZ5.SZoB/j4zK','','guest'),(7,'hola','hola@gmail.com','$2b$12$saE3gDn6C5XoU6P5KYOKfuyJhVVUQMXRrIF4vrKGNNSxUyBWxBwuq','','guest'),(8,'prueba','pueba@com','$2b$12$DETnTActf82jcCGcXIJ9bOqqo3yJ3.06jkwaUrVTq0LO47C3wDF1u','secreto','guest'),(9,'prueba2','prueba@2','$2b$12$BJBYx6SHsuFOdQci4kxYguYFlbTj4ZEeUQTTzAEYi13pSQAd4bY1q',NULL,'guest'),(10,'nija','nija@com','$2b$12$V6kiEo/oSxmB4LPAT/0aCer6qmnvYwlbSJX94U4b5FOpfUMEzJAC6',NULL,'guest'),(11,'nijao','nija@o','$2b$12$1CUiAr.gojEuqr.LWCh5/u/WgwTfklgvAHFy8p/Rf9CJczPApm1Da',NULL,'guest'),(12,'user','user@user','$2b$12$s2YoP9VXnStzKl.s8s7sxeRVomrfW2SbHg1Aph.8WOgPjlNvXyJKy',NULL,'guest'),(13,'1234','1234@1','$2b$12$RrmGOltcE.bADPAbKWF8WOWQnZTgaMe5t3U7svs6.HGtbt52lpke2',NULL,'guest'),(14,'12345','432@34','$2b$12$.uoaeNglAthUCRI7c/ogYOYVUSc7LX4Lzlxp5xp/L2U4RX90h7Afy','ninja','guest'),(15,'pk','pk@ligin','$2b$12$laTGtHJ/F85cUvsiEqwVDu1cym7iTBRSrlGWREqo5LTgtt2Y/58e2','secreto','guest'),(16,'guadalupe','lupeguay@gmail.com','$2b$12$DvVcx4YxEKp0Md/9WouBreLGVc0mm19jx/tYns5HmtDL/2UtycI5q','secreto','guest');
 /*!40000 ALTER TABLE `usuarios` ENABLE KEYS */;
 UNLOCK TABLES;
+
+--
+-- Dumping events for database 'mycap_stone'
+--
+
+--
+-- Dumping routines for database 'mycap_stone'
+--
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
@@ -112,4 +118,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2024-09-14 18:51:36
+-- Dump completed on 2024-09-18 14:37:24
