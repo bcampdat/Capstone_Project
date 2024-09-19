@@ -39,11 +39,12 @@ const server = https.createServer(options, app);
 
 //CORS
 const corsOptions = {
-  origin: 'http://localhost:5173',
+  origin: process.env.URLFRONTEND || 'http://localhost:5173',
   methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
   allowedHeaders: 'X-CSRF-Token, X-Requested-With, Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version, Authorization',
   credentials: true,
-  optionsSuccessStatus: 200
+  proxy : true,
+  samesite : 'none',
 };
 app.use(cors( corsOptions ));
 
@@ -63,7 +64,7 @@ app.get("/", (req, res) => {
 });
 
 // listener
-const port = process.env.PORT;
+const port = process.env.PORT || 3001;
 app.listen(port, () => {
   console.log(`Servidor escuchando en el puerto ${port}`);
 });
