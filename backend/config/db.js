@@ -2,7 +2,6 @@ const mysql = require("mysql");
 
 require("dotenv").config();
 
-const URLDB = process.env.DATABASE_URL || "mysql://root:AtHEnaaCNPyvxrAkjpnMXwJZroFDWUjw@mysql.railway.internal:3306/railway";
 
 const db = mysql.createConnection({
   user: process.env.DB_USER || "root",
