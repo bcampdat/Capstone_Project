@@ -8,7 +8,7 @@ export default function About() {
       <div className="dark:text-white">
         {/* Logo con position absolute */}
         <div className="absolute right-0 top-0 lg:right-10 lg:top-10 transform translate-y-[-50px] lg:translate-y-[-70px] lg:translate-x-[30px]"> {/* Ajuste de posición para alejarlo del texto */}
-          <img src={logo} alt="EGUNERY Logo" className=" logo w-40 lg:w-64" /> {/* Tamaño del logo aumentado */}
+          <img src={logo} alt="EGUNERY Logo" className=" logo w-40 lg:w-64" /> 
         </div>
 
         <div className="flex flex-col lg:flex-row items-start mb-6">
@@ -16,13 +16,13 @@ export default function About() {
             <h1 className="text-4xl font-bold mb-4 text-amber-300">
               Descubre "EGUNERY"
             </h1>
-            <p className="text-lg mb-4 text-justify">
+            <p className="text-lg mb-4 text-left">
               EGUNERY es la app que organiza tu vida con un solo clic.
               <br />
               Bienvenido a EGUNERY, una aplicación diseñada para aquellos que desean llevar el
-              control total de su día a día de una manera sencilla, dinámica y
+              control total de su día a día <br />de una manera sencilla, dinámica y
               personal. Nuestro objetivo es darte las herramientas para que puedas
-              gestionar tu tiempo, explorar el mundo y compartir tus ideas, todo
+              gestionar <br />tu tiempo, explorar el mundo y compartir tus ideas, todo
               desde un solo lugar.
             </p>
           </div>
@@ -34,7 +34,7 @@ export default function About() {
         <ul className="list-disc list-inside space-y-4">
           <li className="flex items-start">
             <FaBlog className="text-4xl text-amber-300 mr-3" />
-            <div>
+            <div className="text-lg">
               <strong>Crea tu Blog Personal:</strong>
               <br />
               Comparte tus pensamientos, experiencias y reflexiones a través de un blog totalmente
@@ -45,7 +45,7 @@ export default function About() {
           </li>
           <li className="flex items-start">
             <FaCalendarAlt className="text-4xl text-sky-300 mr-3" />
-            <div>
+            <div className="text-lg">
               <strong>Calendario y Gestión de Eventos:</strong>
               <br />
               Accede a tu propio espacio privado donde podrás gestionar tus tareas, citas y eventos de
@@ -56,7 +56,7 @@ export default function About() {
           </li>
           <li className="flex items-start">
             <FaMapMarkedAlt className="text-4xl text-blue-800 mr-3" />
-            <div>
+            <div className="text-lg">
               <strong>Navegación GPS en Tiempo Real:</strong>
               <br />
               Explora el mundo con precisión. Con EGUNERY, puedes ver tu ubicación en tiempo real,
@@ -66,7 +66,7 @@ export default function About() {
             </div>
           </li>
         </ul>
-        <p className="text-lg mt-6">
+        <p className="text-lg mt-6 font-bold">
           En EGUNERY, creemos que cada persona merece un espacio digital único
           para gestionar su tiempo, sus recuerdos y su camino. Ya sea que estés
           escribiendo sobre tus últimas aventuras o buscando la dirección para tu
